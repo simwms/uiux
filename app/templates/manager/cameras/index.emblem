@@ -1,0 +1,18 @@
+if model
+  ember-list-standin items=model height=500 rowHeight=50 as |cam|
+    link-to "manager.cameras.camera" cam.id
+      ul.list-inline
+        li
+          span.fa.bold.capitalize.colon camera name
+          span.fa= cam.cameraName
+        li
+          span.fa.bold.capitalize.colon located at
+          span.fa= cam.tile.fullTitle
+else
+  h4.alert.alert-warning
+    i.fa.fa-warning
+    span.fa You have no cameras setup!
+.actions
+  button.btn.btn-primary.close-button click="closeModal"
+    i.fa.fa-times
+    span.prespace.upcase dismiss

@@ -1,0 +1,6 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize free dock: nothing to do
+  .panel-body
+    p.capitalize this dock is currently not expecting a truck
+    

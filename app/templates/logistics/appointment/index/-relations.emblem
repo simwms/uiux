@@ -1,0 +1,33 @@
+.panel-body: span.fa.capitalize related appointments
+
+.list-group
+  each model.dropoffs as |id|
+    link-to "logistics.appointment" id classNames="list-group-item"
+      span.fa.bold # {{id}}&nbsp;
+      span.fa drop off appointment 
+  else
+    .list-group-item.disabled: span.fa no drop-off appointments
+
+  each model.pickups as |id|
+    link-to "logistics.appointment" id classNames="list-group-item"
+      span.fa.bold # {{id}}&nbsp;
+      span.fa pick up appointment
+  else
+    .list-group-item.disabled: span.fa No pickup appointments
+
+.panel-body: span.fa.capitalize related batches
+
+.list-group
+  each model.batches as |batch|
+    link-to "logistics.inventories.batch" batch.id classNames="list-group-item"
+      span.fa.bold # {{batch.id}}&nbsp;
+      span.fa incoming batch
+  else
+    .list-group-item.disabled: span.fa No incoming batches
+
+  each model.outgoingBatches as |id|
+    link-to "logistics.inventories.batch" id classNames="list-group-item"
+      span.fa.bold # {{id}}&nbsp;
+      span.fa outgoing batch
+  else
+    .list-group-item.disabled: span.fa No outgoing batches

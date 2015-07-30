@@ -1,0 +1,3 @@
+.col-xs-12
+  == partial "stations/station/entrance"
+  == partial "stations/station/exit"

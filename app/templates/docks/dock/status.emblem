@@ -1,0 +1,56 @@
+.col-lg-6.col-md-6.col-sm-12.col-xs-12
+  video-proxy class="thumbnail scale-camera" src="assets/doge.webm"
+.col-lg-6.col-md-6.col-sm-12.col-xs-12
+  h3.section-title
+    span.fa.capitalize loading dock#
+    span.fa= model.dockNumber
+  .row
+    .col-lg-6.col-md-6.col-sm-12.col-xs-12
+      dl
+        dt
+          span.dt-title.fa data id
+        dd
+          span.fa= model.id
+        dt
+          span.dt-title.fa camera status
+        dd
+          i.fa.fa-check
+          span.fa live
+        dt
+          span.dt-title.fa dock status
+        dd
+          if model.isOkay
+            i.fa.fa-check.text-success
+            span.fa ok
+          if model.isInUse
+            i.fa.fa-cog.fa-spin.text-warning
+            span.fa busy
+          if model.isProblem
+            i.fa.fa-warning.text-danger
+            span.fa error
+        
+    .col-lg-6.col-md-6.col-sm-12.col-xs-12
+      link-to "docks.dock.problem" model.id class="btn btn-block btn-lg btn-danger btn-hover"
+        i.fa.fa-warning
+        span.fa.capitalize report problem
+  h4.subsection-title
+    span.fa.capitalize station employees
+  .media
+    .media-left
+      img.media-object.thumbnail.mugshot src="images/doge.jpg"
+    .media-body
+      .media-heading
+        span.fa.employee-name Leonard Nimoy
+      .status-info
+        span.capitalize.bold.colon status
+        span.prespace dead
+
+  .media
+    .media-left
+      img.media-object.thumbnail.mugshot src="images/doge2.jpg"
+    .media-body
+      .media-heading
+        span.fa.employee-name William Shatner
+      .status-info
+        span.capitalize.bold.colon status
+        span.prespace overweight

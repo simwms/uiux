@@ -1,0 +1,7 @@
+link-to "docks.dock.index" dock.id class="list-group-item"
+  h4.dock-title
+    span.fa dock #
+    span.fa= dock.nameOrId
+  .dock-status
+    span.dash.bold status
+    span.fa= dock.status

@@ -1,0 +1,9 @@
+.col-xs-12.col-sm-12.col-md-6.col-lg-6
+  .panel.panel-default
+    .panel-heading 
+      span.fa.capitalize filter batches
+      span.parantheses {{num pickup.outgoingBatches.length}} batch(es) selected
+
+    .panel-body: span.fa Once you select an appointment, the batches dropped off by that appointment will show up here
+
+    .panel-footer: span.fa You haven't searched yet

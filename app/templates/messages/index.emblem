@@ -1,0 +1,21 @@
+h2.modal-title
+  span.fa messages overview
+.list-group
+  each model as |message|
+    link-to "message" message.id class="list-group-item"
+      if message.isUpdate
+        i.fa.fa-circle-o.text-success
+      if message.isNotice
+        i.fa.fa-info-circle.text-primary
+      if message.isWarning
+        i.fa.fa-warning.text-warning
+      if message.isBreaking
+        i.fa.fa-bomb.text-danger
+      span.dash.bold.prespace= message.createdAtAgo
+      span= message.tickerTitle
+      span.kill.pointer click="'killMessage' message"
+        i.fa.fa-trash.fa-lg
+.actions
+  button.btn.btn-primary.close-button click="closeModal"
+    i.fa.fa-times
+    span.prespace.upcase dismiss      

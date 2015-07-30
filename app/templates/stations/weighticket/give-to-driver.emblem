@@ -1,0 +1,22 @@
+.panel.panel-default
+  .list-group
+    link-to "stations.weighticket.edit" model.id classNames="list-group-item list-group-item-success instruction-line"
+      i.fa.fa-check
+      span.fa create a weight ticket for the truck
+
+    link-to "stations.weighticket.print" model.id classNames="list-group-item list-group-item-success instruction-line"
+      i.fa.fa-check
+      span.fa print out the weighticket and instruction sheet
+
+  .panel-heading.instruction-line
+    span.fa give the ticket to the driver
+
+  .panel-body.instruction-line
+    p.capitalize so the driver knows which loading dock to head to
+    .btn-group  
+      button.btn.btn-success.btn-hover.btn-lg click="finish"
+        i.fa.fa-check
+        span.capitalize finish
+      link-to "stations.station.problem" model.issuerId class="btn btn-danger btn-hover btn-lg"
+        i.fa.fa-warning
+        span.capitalize report problem

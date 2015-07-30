@@ -1,0 +1,56 @@
+.col-xs-12
+  .panel.panel-default
+    .list-group
+      link-to "stations.weighticket.edit" model.id classNames="list-group-item list-group-item-success instruction-line"
+        i.fa.fa-check
+        span.fa create a weight ticket for the truck
+
+    .panel-heading.instruction-line
+      if weighticket
+        i.fa.fa-cog.fa-spin
+        span.fa print out the weighticket and this instruction sheet
+      else
+        span.fa your weighticket isn't ready yet!
+
+    .panel-body
+      .row
+        each weighticket.pictures as |picture|
+          .col-lg-4.col-md-4.col-sm-6.col-xs-6
+            img.thumbnail.bound src=picture.normal
+    .panel-body.instruction-line
+      dl
+        dt appointment number
+        dd= weighticket.appointment.permalink
+        dt appointment type
+        dd= weighticket.appointment.appointmentType
+        dt issuer
+        dd= weighticket.issuer.nameOrId
+        dt pounds
+        dd= weighticket.pounds
+        dt license plate
+        dd= weighticket.licensePlate
+        dt target dock
+        dd= weighticket.dock.nameOrId
+        dt createdAt
+        dd= moment weighticket.createdAt
+        dt appointment status
+        dd= weighticket.appointment.status
+        dt notes
+        dd= weighticket.notes
+      .btn-group
+        if weighticket
+          a.btn.btn-success.btn-hover.btn-lg href=printTicketLink target="blank"
+            i.fa.fa-print
+            span.capitalize print view
+
+        link-to "stations.weighticket.trucks.new" model.id class="btn btn-primary btn-hover btn-lg"
+          i.fa.fa-caret-down
+          span.capitalize go next
+            
+        link-to "stations.station.problem" model.issuerId class="btn btn-danger btn-hover btn-lg"
+          i.fa.fa-warning
+          span.capitalize report problem
+
+    .list-group
+      link-to "stations.weighticket.trucks.new" model.id class="list-group-item instruction-line"
+        span.fa give weight ticket to driver

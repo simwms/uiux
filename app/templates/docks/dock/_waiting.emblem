@@ -1,0 +1,24 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa Waiting for truck from appointment no.
+    span.highlight= truck.appointmentNumber
+  .panel-body
+    figure
+      figcaption
+        span.fa truck on-route from weight station, license number
+        span.highlight= truck.licensePlate
+      img.thumbnail.example-pic src="images/license-plate.jpg"
+
+    .btn-group.btn-group-lg
+      button.btn.btn-success.btn-hover click="truckArrived"
+        i.fa.fa-truck
+        span.fa.capitalize.bold truck has arrived
+      link-to "docks.dock.problem" model.id class="btn btn-danger btn-hover"
+        i.fa.fa-warning
+        span.fa.capitalize.bold report problem 
+  
+  .list-group
+    .list-group-item.instruction-line
+      span.fa.capitalize unload truck
+    .list-group-item.instruction-line
+      span.fa.capitalize finish

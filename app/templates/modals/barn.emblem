@@ -1,0 +1,27 @@
+.container
+  .row
+    .col-lg-8.col-md-10.col-sm-12.col-xs-12.col-lg-push-2.col-md-push-1
+      #barn-modal.modal-box
+        .close-button-top.pointer.close-button click="closeModal"
+          i.fa.fa-times
+        h2.modal-title
+          span.fa barn no. 3
+        .media
+          .live-camera.media-left
+            video-proxy class="thumbnail" src="assets/doge.webm"
+          .media-body
+            dl
+              dt.capitalize.bold status
+              dd available
+              dt.capitalize.bold camera
+              dd live
+              dt.capitalize.bold dock no.
+              dd 3
+              dt.capitalize.bold workers
+              dd Jose, Phillip
+              dt.capitalize.bold truck
+              dd none
+        .actions
+          button.btn.btn-primary.close-button click="closeModal"
+            i.fa.fa-times
+            span.prespace.upcase dismiss

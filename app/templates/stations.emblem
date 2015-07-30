@@ -1,0 +1,23 @@
+#main-nav
+  nav.navbar.navbar-default
+    .container
+      link-to "stations" class="navbar-brand"
+        span.capitalize.bold weight stations index
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          link-to "index"
+            i.fa.fa-sign-out
+
+
+#stations-application.non-manager-application
+  section#scale-info
+    .container
+      == outlet 
+      
+  footer#non-manager-footer
+    .container
+      .row
+        .col-xs-12
+          h4.footer-title
+            span.fa weight stations

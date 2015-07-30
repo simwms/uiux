@@ -1,0 +1,13 @@
+.media
+  .media-left
+    img.media-object.thumbnail.small src="images/ldpe.jpg"
+  .media-body
+    dl
+      dt.attr-title status
+      dd full
+      dt.attr-title appointment in
+      dd 234234
+      dt.attr-title appointment out
+      dd none
+      dt.attr-title belongs to
+      dd Acme Plastics Co.

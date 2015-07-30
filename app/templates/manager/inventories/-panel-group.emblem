@@ -1,0 +1,49 @@
+.panel-group
+  panel-collapsible active=active panelTitle="storage inventory summary" action="clickSummary"
+    .panel-body
+      ul.list-inline
+        li
+          span.bold.capitalize.fa.colon total storage sections
+          span.fa= model.length
+        li
+          span.bold.fa.capitalize.colon total loads in warehouse
+          span.fa= model.totalBatches
+  each model as |warehouse|
+    panel-collapsible model=warehouse active=active action="clickPanel" panelTitle=warehouse.fullTitle
+      .panel-body
+        ul.list-inline
+          li
+            span.bold.capitalize.fa.colon total batches
+            span.fa= warehouse.batches.length
+          li
+            span.bold.capitalize.fa.colon cameras
+            each warehouse.cameras as |camera|
+              i.fa.fa-video-camera
+            else
+              span.parantheses none
+          li
+            span.bold.capitalize.fa.colon last modified
+            span.fa= moment warehouse.updatedAt
+        p 
+          link-to "manager.inventories.cell" warehouse.id
+            span The following 
+            span.bold= warehouse.batchesCollection.uniqAppointmentCount
+            span &nbsp;appointment(s) have loads stored in this section
+      .list-group
+        each warehouse.batchesCollection.uniqAppointmentBatches as |batch|
+          link-to "manager.inventories.cell" warehouse.id classNames="list-group-item"
+            ul.list-inline
+              li
+                span.bold.capitalize.fa batch no.
+                span.fa= batch.permalink
+              li
+                span.bold.capitalize.fa.colon arrived at
+                span.fa= moment batch.createdAt
+              li
+                span.bold.capitalize.fa.colon description
+                span.fa.ellipsis= batch.description
+        else
+          link-to "manager.inventories.cell" warehouse.id classNames="list-group-item" 
+            span.fa you have no loads here from any appointment
+  else
+    panel-collapsible panelTitle="You have no storage cells!"

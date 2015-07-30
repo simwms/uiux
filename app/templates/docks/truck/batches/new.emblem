@@ -1,0 +1,44 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa material bale from truck with appointment number
+    span.highlight= model.appointment.permalink
+  
+  .panel-body.instruction-line
+    .row
+      .col-xs-12.col-sm-12.col-md-9.col-lg-9
+        em-form-for model=model mistakes=batchErrors action="batch"
+          .row
+            each model.files as |uri|
+              .col-lg-4.col-md-4.col-sm-6.col-xs-6
+                img.thumbnail.bound.click-to-kill.pointer click="'killPic' uri" src=uri
+                
+          em-form-input name="quantity" type="text" label="quantity"
+            span.help-block about how much material is in this batch?
+
+          em-form-input name="warehouse" type="select" label="target storage section" content=warehouseChoices optionValuePath='value' optionLabelPath='presentation'
+            span.help-block if you don't like the suggested storage section, please change it
+
+          em-form-input name="description" type="textarea" label="description"
+            span.help-block any additional notes
+
+          .btn-group
+            promise-button model=model classNames="btn btn-success btn-hover btn-lg" type="submit"
+              i.fa.fa-check
+              span.capitalize submit
+            link-to "docks.truck.arrive" model.truck.id class="btn btn-default btn-hover btn-lg"
+              i.fa.fa-times
+              span.capitalize back
+      .col-xs-12.col-sm-12.col-md-3.col-lg-3
+        ul
+          li
+            span.fa.bold.colon truck license plate
+            span.fa= model.truck.weighticket.licensePlate
+          li
+            span.fa.bold.colon loading dock
+            span.fa= model.dock.nameOrId
+          li
+            span.fa.bold.colon arrived at
+            span.fa= ago model.arrivedAt
+          li
+            span.fa.bold.colon target storage section
+            span.fa= model.warehouse.nameOrId

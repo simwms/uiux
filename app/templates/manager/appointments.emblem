@@ -1,0 +1,18 @@
+#modal-background
+  .modal-container
+    .container
+      .row
+        .col-lg-8.col-md-10.col-sm-12.col-xs-12.col-lg-push-2.col-md-push-1
+          #contracts-modal.modal-box
+            .close-button-top.pointer.close-button click="closeModal"
+              i.fa.fa-times
+            h2.modal-title
+              span.fa.capitalize logistic details
+            ul.nav.nav-pills
+              li.active
+                link-to "manager.appointments"
+                  span.capitalize home
+              li
+                link-to "logistics.appointments"
+                  span.capitalize goto logistics
+            == outlet

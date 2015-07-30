@@ -1,0 +1,14 @@
+.panel.panel-default
+  .panel-heading
+    h3.panel-title
+      span.fa.capitalize today's appointment
+  .list-group
+    each model as |appointment|
+      link-to "logistics.appointment" appointment.id class="list-group-item"
+        span.fa.bold.capitalize appt no.
+        span.fa.prespace= appointment.id
+        span.fa.bold.capitalize.prespace.colon from
+        span.fa.prespace= appointment.company
+    else
+      .list-group-item
+        span.fa.bold your warehouse has no appointments today

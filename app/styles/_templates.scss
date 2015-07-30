@@ -1,0 +1,31 @@
+@import "templates/manager";
+@import "templates/modal";
+@import "templates/index";
+html {
+  background-color: #eee;
+}
+
+#non-manager-footer {
+  background-color: #ddd;
+  min-height: 100px;
+  @include display-flex;
+  @include align-items(center);
+  color: #888;
+  @include box-shadow(#777 0px -2.5px 3px);
+  .footer-title {
+    text-align: center;
+  }
+}
+
+.non-manager-application {
+  @include display-flex;
+  @include flex-direction(column);
+  @include justify-content(space-between);
+  padding-top: 25px;
+  left: 0;
+  width: 100%;
+  min-height: 93vh;
+  background-color: #fff;
+  z-index: 0;
+  overflow-x: hidden;
+}

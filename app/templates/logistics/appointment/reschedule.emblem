@@ -1,0 +1,15 @@
+.row
+  .col-xs-12
+    link-to "logistics.appointment.index" model.id class="btn btn-default"
+      i.fa.fa-caret-left
+      span.fa.capitalize exit reschedule
+.row
+  .col-xs-12.col-sm-12.col-md-6.col-lg-4
+    em-form-for action="update" model=model
+      em-form-input name="expectedAt" type="date" labelText="ETA"
+      
+      .actions
+        promise-button model=model type="submit" classNames="btn btn-success btn-lg btn-hover"
+          i.fa.fa-check
+          span.fa submit
+    

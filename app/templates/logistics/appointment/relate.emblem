@@ -1,0 +1,29 @@
+.row
+  .col-xs-12
+    link-to "logistics.appointment.index" pickup.id class="btn btn-default"
+      i.fa.fa-caret-left
+      span.fa.capitalize exit relate
+.row
+  .col-xs-12.col-sm-12.col-md-6.col-lg-6
+    .panel.panel-default
+      .panel-heading 
+        span.fa.capitalize search appointments
+        span.parantheses {{num pickup.dropoffs.length}} appointment(s) selected
+      
+      .panel-body  
+        == partial "logistics/appointment/relate/search"
+
+      if appointmentRelationships
+        .panel-body: span.fa Please specify what drop-off appointment this pick-up appointment is suppose to pick up
+        == partial "logistics/appointment/relate/relationships"
+      else
+        h4.alert.alert-warning
+          span.fa Sorry, nothing was found!      
+
+      .panel-footer
+        small {{num appointmentRelationships.length}} result(s)
+  == outlet
+  
+#annoyed-flash.hidden
+  h4.alert.alert-warning
+    span.fa.capitalize.bold I'm busy!

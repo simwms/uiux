@@ -1,0 +1,15 @@
+h2.modal-title
+  i.fa.fa-info.text-success
+  span.fa= model.tickerTitle
+
+if model.note
+  p.message
+    span.fa= model.note
+
+h6.subheader
+  span.fa= model.createdAtAgo
+
+.actions
+  button.btn.btn-success.close-button click="resolveMessage"
+    i.fa.fa-check
+    span.prespace.upcase dismiss

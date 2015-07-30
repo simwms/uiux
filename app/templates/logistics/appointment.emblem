@@ -1,0 +1,5 @@
+h2.section-title.capitalize
+  span.fa appointment # 
+  span.fa= model.permalink
+
+== outlet

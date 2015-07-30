@@ -1,0 +1,12 @@
+.panel.panel-default
+  .panel-heading
+    span.fa.capitalize trucks on site
+  .list-group
+    each model as |truck|
+      link-to "manager.trucks.truck" truck.id class="list-group-item"
+        span.fa.bold.capitalize truck for appt no.
+        span.prespace= truck.appointmentNumber
+        span.parantheses= truck.position
+    else
+      .list-group-item
+        span.fa.capitalize no truck is on site

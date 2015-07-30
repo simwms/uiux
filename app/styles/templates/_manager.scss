@@ -1,0 +1,83 @@
+$manager-blue: #BBDEFB;
+#sidebar {
+  @include display-flex;
+  @include justify-content(center);
+  @include align-items(center);
+  @include box-shadow(lighten(#333, 25%) -2px 0px 5px);
+  z-index: 1;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  height: 90%;
+  width: 150px;
+  background-color: $manager-blue;
+  border-left: 2px solid #EFEBE9;
+  .side-nav {
+    
+  }
+  img.icon-nav {
+    height: 100%;
+  }
+  .square {
+    height: 100px;
+    text-transform: capitalize;
+    @include box-shadow(lighten(#333, 25%) 3px 2px 5px);
+  }
+}
+
+#corner {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: 225px;
+  height: 200px;
+  z-index: 3;
+  background-color: $manager-blue;
+  &:hover {
+    background-color: darken($manager-blue, 10%);
+  }
+  border-top: 2px solid #EFEBE9;
+  border-left: 2px solid #EFEBE9;
+  @include transition-property(background-color);
+  @include transition-duration(200ms);
+  @include transition-timing-function(ease-in);
+  @include box-shadow(lighten(#333, 25%) -2px -2px 5px);
+  @include display-flex;
+  @include justify-content(center);
+  @include align-items(center); 
+  img.icon-nav {
+    height: 175px;
+  }
+}
+
+#footer {
+  @include box-shadow(lighten(#333, 25%) 0px -2px 5px);
+  z-index: 2;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding-left: 15px;
+  background-color: $manager-blue;
+  border-top: 2px solid #EFEBE9;
+  
+  
+  .info-box {
+    text-align: center;
+    padding: 10px;
+    border: 2px solid darken(#0D47A1, 25%);
+    background-color: #eee;
+    margin-bottom: 15px;
+  }
+  .info-title {
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+    &::after {
+      content: ":";
+    }
+  }
+  .info-data {
+    padding-right: 10px;
+  }
+}

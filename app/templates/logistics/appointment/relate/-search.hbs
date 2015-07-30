@@ -1,0 +1,16 @@
+<form class="form-inline" {{action "search" on="submit"}}>
+  <div class="form-group">
+    <label for="search" class="sr-only">Search</label>
+    <div class="input-group">
+      <div class="input-group-addon">
+        <i class="fa fa-search"></i>
+      </div>
+      {{input type="text" classNames="form-control" placeholder="some company" value=search}}
+      <div class="input-group-btn">
+        <button class="btn btn-default">
+          <span class="fa">Go</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,15 @@
+.row
+  .col-xs-12
+    .btn-group.btn-group-lg
+      link-to "docks.dock.index" model.id class="btn btn-default"
+        i.fa.fa-dashboard
+        span.fa.nav-title dash
+      link-to "docks.dock.status" model.id class="btn btn-default"
+        i.fa.fa-camera
+        span.fa.nav-title camera
+      link-to "docks.dock.problem" model.id class="btn btn-default"
+        i.fa.fa-warning
+        span.fa.nav-title problem
+.row
+  == outlet
+

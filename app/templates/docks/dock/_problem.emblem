@@ -1,0 +1,10 @@
+.panel.panel-danger.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize you've filed a problem
+  .panel-body
+    p.capitalize we have contacted the warehouse manager and he is heading over to help
+    p.capitalize once you have resolved this problem, let me know so I can get back to work!
+    button.btn.btn-success.btn-lg.btn-hover click="resolveProblem"
+      i.fa.fa-check
+      span.fa.capitalize.bold resolve
+    

@@ -1,0 +1,12 @@
+{{#table-grid-2d classNames="table table-hover table-bordered inventory-table-container" colNames=colNames rowNames=rowNames data=warehouses originLabel="#" action="touchCell" as |warehouse|}}
+  {{#if warehouse.id}}
+    {{#if warehouse.hasStuff}}
+      <i class="fa fa-cubes"></i>
+    {{else}}
+      <i class="fa fa-circle-thin"></i>
+    {{/if}}
+  {{else}}
+    <i class="fa fa-times"></i>
+  {{/if}}
+{{/table-grid-2d}}
+

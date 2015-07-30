@@ -1,0 +1,4 @@
+h2.section-title
+  span.fa.capitalize loading logistics dashboard
+
+== partial "sessions/setup"

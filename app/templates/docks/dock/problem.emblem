@@ -1,0 +1,17 @@
+.col-xs-12.col-sm-12.col-md-8.col-lg-6
+  em-form-for action="newProblemMessage" model=model
+    legend.form-title
+      span.fa dock problem @
+      span.fa= model.dockNumber
+
+    em-form-input name="notes" type="textarea"
+      label.help-block describe what went wrong
+
+    .actions
+      button.btn.btn-success.btn-hover.btn-lg.btn-block type="submit"
+        i.fa.fa-check
+        span.capitalize submit
+
+      link-to "docks.dock.status" model.id class="btn btn-default btn-hover btn-lg btn-block"
+        i.fa.fa-times
+        span.capitalize cancel

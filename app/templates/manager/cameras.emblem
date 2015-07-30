@@ -1,0 +1,16 @@
+#modal-background
+  .modal-container
+    .container
+      .row
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12
+          #cameras-modal.modal-box
+            .close-button-top.pointer.close-button click="closeModal"
+              i.fa.fa-times
+            h2.modal-title
+              span.fa.capitalize cameras
+            ul.nav.nav-pills
+              link-to "manager.cameras.index" tagName="li"
+                a.pointer.capitalize index
+              link-to "manager.cameras.overview" tagName="li"
+                a.pointer.capitalize overview
+            == outlet

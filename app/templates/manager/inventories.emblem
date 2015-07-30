@@ -1,0 +1,9 @@
+#modal-background
+  .modal-container
+    .container
+      .row
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12
+          #inventories-modal.modal-box
+            .close-button-top.pointer.close-button click="closeModal"
+              i.fa.fa-times
+            == outlet

@@ -1,0 +1,23 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize exiting trucks
+  .panel-body
+    p.capitalize the following trucks are trying to leave
+    table.table.table-hover
+      thead
+        tr
+          th.capitalize appt no
+          th.capitalize origin
+          th.capitalize material
+          th.capitalize arrival time
+          th.capitalize status
+          
+      tbody
+        each trucks as |truck|
+          tr.pointer data-truck-id=truck.id click="'depart' truck"
+            td= truck.appointment.permalink
+            td= truck.appointment.company
+            td= truck.appointment.materialDescription
+            td= ago truck.undockedAt
+            td= truck.position
+            

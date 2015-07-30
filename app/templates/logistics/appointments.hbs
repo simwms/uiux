@@ -1,0 +1,20 @@
+<div class="list-group">
+  {{#link-to "logistics.appointments.new" classNames="list-group-item list-group-item-success"}}
+    <h4 class="list-group-item-heading">
+      <i class="fa fa-plus"></i>
+      <span class="capitalize">new appointment</span>
+    </h4>
+  {{/link-to}}
+</div>
+{{#if withinWorkingHours}}
+  <h6 class="alert alert-success">
+    <i class="fa fa-clock-o"></i>
+    {{moment clock.rightNow}}
+  </h6>
+{{else}}
+  <h4 class="alert alert-warning">
+    <i class="fa fa-warning"></i>
+    {{moment clock.rightNow}}: Currently outside working hours. Working hours are between 6:00am to 8:00pm
+  </h4>
+{{/if}}
+{{outlet}}

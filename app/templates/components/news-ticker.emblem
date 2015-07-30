@@ -1,0 +1,12 @@
+link-to "messages" class="archive-anchor"
+  if messages.length
+    i.fa.fa-archive.fa-3x.text-danger
+  else
+    i.fa.fa-archive.fa-3x
+.messages
+  each messages as |message|
+    link-to "message" message.id class=message.threatLevel
+      span= message.tickerTitle
+  else
+    span.message
+      span.message-title nothing to report

@@ -1,0 +1,44 @@
+.col-lg-12.col-md-12.col-sm-12.col-xs-12
+  .list-group
+    a.list-group-item href="/config"
+      h4.list-group-item-heading
+        i.fa.fa-gear
+        span.capitalize.prespace.bold configuration
+        span.pull-right
+          i.fa.fa-external-link
+      p.list-group-item-text 
+        span.fa Launches the warehouse configuration application for setting up new warehouses and cameras
+    
+    a.list-group-item href="/account"
+      h4.list-group-item-heading
+        i.fa.fa-user
+        span.capitalize.prespace.bold account
+        span.pull-right
+          i.fa.fa-external-link
+      p.list-group-item-text 
+        span.fa Manage your account and payment details on the Pisource SIMWMS website
+
+    a.list-group-item href="/documentation"
+      h4.list-group-item-heading
+        i.fa.fa-tasks
+        span.capitalize.prespace.bold help and docs
+        span.pull-right
+          i.fa.fa-external-link
+      p.list-group-item-text 
+        span.fa Guides and documentation to help you make the most of out of SIMWMS
+
+    a.list-group-item href="/feedback"
+      h4.list-group-item-heading
+        i.fa.fa-comments-o
+        span.capitalize.prespace.bold feedback
+        span.pull-right
+          i.fa.fa-external-link
+      p.list-group-item-text 
+        span.fa Found a bug? Want another feature? Let us know how we can make SIMWMS better
+
+    link-to "index" class="list-group-item"
+      h4.list-group-item-heading
+        i.fa.fa-sign-out
+        span.capitalize.prespace.bold &nbsp;exit
+      p.list-group-item-text 
+        span.fa Exits the manager application to the title screen

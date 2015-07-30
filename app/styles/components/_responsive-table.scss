@@ -1,0 +1,23 @@
+.responsive-table {
+  @media (max-width: $screen-sm-min) {
+    thead {
+      display: none;
+    }
+    tr {
+      display: block;
+    }
+    td {
+      display: block;
+      text-align: right;
+      &::before {
+        content: attr(data-label);
+        text-transform: capitalize;
+        font-weight: bold;
+        float: left;
+      }
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+}

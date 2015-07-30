@@ -1,0 +1,20 @@
+.media
+  .live-camera.media-left
+    video-proxy class="thumbnail" src="assets/doge.webm"
+  .media-body
+    dl
+      dt.capitalize.bold status
+      dd in-use
+      dt.capitalize.bold camera
+      dd live
+      dt.capitalize.bold station no.
+      dd= model.id
+      dt.capitalize.bold workers
+      dd Jose, Phillip
+      dt.capitalize.bold truck
+      dd none
+
+.actions
+  button.btn.btn-primary.close-button click="closeModal"
+    i.fa.fa-times
+    span.prespace.upcase dismiss

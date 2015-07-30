@@ -1,0 +1,8 @@
+if isImageCam
+  img.camera-feed src=camera.permalink
+
+if isWebCam
+  img.thumbnail.live-camera src="images/camera.png"
+
+unless isKnown
+  img.fail-fallback src="images/nocam.png"

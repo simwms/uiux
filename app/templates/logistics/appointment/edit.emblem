@@ -1,0 +1,24 @@
+.row
+  .col-xs-12
+    link-to "logistics.appointment.index" model.id class="btn btn-default"
+      i.fa.fa-caret-left
+      span.fa.capitalize exit edit
+.row
+  .col-xs-12.col-sm-12.col-md-6.col-lg-4
+    em-form-for mistakes=appointmentError action="update" model=model
+      em-form-input label="appointment type" name="appointmentType" type="select" content=appointmentChoices optionValuePath='value' optionLabelPath='presentation'
+        span.help-block Pickup appointments will require us to specify what is to be picked up.
+
+      em-form-input name="company" label="company" type="text"
+      
+      em-form-input name="materialDescription" label="material description" type="text"
+        span.help-block Write a short description for what materials will be transacted in this appointment
+
+      em-form-input name="externalReference" label="external reference number" type="string"
+      
+      em-form-input name="notes" label="notes" type="textarea"
+      .actions
+        promise-button model=model type="submit" classNames="btn btn-success btn-lg btn-hover"
+          i.fa.fa-check
+          span.fa submit
+    

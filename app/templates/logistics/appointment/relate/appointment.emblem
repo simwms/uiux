@@ -1,0 +1,37 @@
+.col-xs-12.col-sm-12.col-md-6.col-lg-6
+  .panel.panel-default
+    .panel-heading 
+      span.fa.capitalize filter batches
+      span.parantheses {{num pickup.outgoingBatches.length}} batch(es) selected
+
+
+    .list-group
+      .list-group-item.pointer click="'toggleAppointment' appointmentRelationship"
+        if appointmentRelationship.isLoaded
+          .list-group-item-heading
+            i.fa.fa-check
+            span.fa.capitalize.bold deselect all
+          .list-group-item-text
+            small.fa deselects this appointment and every batch from this appointment
+        else
+          .list-group-item-heading
+            i.fa.fa-square-o
+            span.fa.capitalize.bold select all
+          .list-group-item-text
+            small.fa selects this appointment and every batch from this appointment
+
+    .panel-body
+      if batchRelationships
+        p: span.fa Please specify the batches (aka bales) you want from this appointment
+      else
+        p.alert.alert-info: span.fa This appointment has no record of any dropped off batches, this could be because this appointment is schedule for the future.
+
+    .list-group
+      each batchRelationships as |relationship|
+        == partial "logistics/appointment/relate/appointment/relationship"
+      else
+        .list-group-item.disabled
+          span.fa Sorry, nothing was found!
+
+    .panel-footer
+      small {{num batchRelationships.length}} result(s)

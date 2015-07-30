@@ -1,0 +1,35 @@
+em-form-for model=model mistakes=mistakes action="newTicket" classNames="panel-body instruction-line"
+  .form-input.input-section.form-group
+    label.control-label
+      span.label-text appointment number
+    .contents
+      input.form-control type=text disabled=true value=model.appointment.permalink
+      
+
+  em-form-input name="dataUris" type="webcam" label="camera pictures" classNames="webcam-240-hack"
+    span.help-block click the video to take picture
+  .row
+    each model.dataUris as |uri|
+      .col-lg-4.col-md-4.col-sm-6.col-xs-6
+        img.thumbnail.bound.click-to-kill.pointer click="'killPic' uri" src=uri
+
+  em-form-input name="licensePlate" type="text" label="license plate number"
+    span.help-block read this off the truck
+  
+  em-form-input name="pounds" type="number" label="weight" suffix="lbs"
+    span.help-block read this off the scale
+
+  em-form-input name="dock" type="select" label="target loading dock" content=dockChoices optionValuePath='value' optionLabelPath='presentation'
+    span.help-block
+      span.fa if you don't like my suggestion, please pick a dock yourself 
+
+  em-form-input name="notes" type="textarea" label="notes"
+    span.help-block extra notes
+
+  .btn-group
+    promise-button model=model classNames="btn btn-success btn-hover btn-lg" type="submit"
+      i.fa.fa-check
+      span.capitalize submit
+    link-to "stations.station.problem" model.issuerId class="btn btn-danger btn-hover btn-lg"
+      i.fa.fa-warning
+      span.capitalize report problem

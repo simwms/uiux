@@ -1,0 +1,52 @@
+.panel.panel-default
+  .panel-heading
+    h3.panel-title
+      span.fa.capitalize appointment search tools
+  .panel-body
+    .btn-group
+      link-to "logistics.appointments" (query-params macro="all") classNames="btn btn-default"
+        span.fa all
+      link-to "logistics.appointments" (query-params macro="today") classNames="btn btn-default"
+        span.fa relevant today
+      link-to "logistics.appointments" (query-params macro="future") classNames="btn btn-default"
+        span.fa planned for future
+      link-to "logistics.appointments" (query-params macro="problem") classNames="btn btn-default"
+        span.fa has problems
+      link-to "logistics.appointments" (query-params macro="fulfilled") classNames="btn btn-default"
+        span.fa fulfilled
+
+  .list-group
+    each model as |appointment|
+      link-to "logistics.appointment" appointment.id class="list-group-item"
+        h4.list-group-item-heading
+          if appointment.statusIsPlanned
+            i.fa.fa-calendar
+          if appointment.statusIsProblem
+            i.fa.fa-warning
+          if appointment.statusIsExpected
+            i.fa.fa-spinner.fa-spin
+          if appointment.statusIsFulfilled
+            i.fa.fa-check
+          if appointment.statusIsCancelled
+            i.fa.fa-times
+          if appointment.statusIsVanished
+            i.fa.fa-exclamation-circle
+          if appointment.statusIsUnknown
+            i.fa.fa-question-circle
+          span &nbsp;{{appointment.permalink}}
+        p.list-group-item-text
+          ul.list-inline
+            li
+              span.fa.capitalize.bold.colon company
+              span.fa= appointment.company
+            li
+              span.fa.capitalize.bold.colon description
+              span.fa= appointment.materialDescription
+            li
+              span.fa.capitalize.bold.colon ETA
+              span.fa= appointment.expectedAtAgo
+            li
+              span.fa.capitalize.bold.colon status
+              span.fa= appointment.status
+
+  .panel-footer: span.fa {{num model.length}} result(s)

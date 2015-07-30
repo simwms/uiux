@@ -1,0 +1,31 @@
+#main-nav
+  nav.navbar.navbar-default
+    .container
+      link-to "logistics" class="navbar-brand"
+        span.capitalize.bold logistics
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          a.pointer click="exitRole"
+            i.fa.fa-sign-out
+#logistics.non-manager-application
+  .container
+    .row
+      .col-xs-12
+        .btn-group.btn-group-lg
+          link-to "logistics.appointments" class="btn btn-default"
+            i.fa.fa-calendar-o
+            span.fa.nav-title appointments
+          link-to "logistics.inventories" class="btn btn-default"
+            i.fa.fa-cubes
+            span.fa.nav-title inventory
+    .row
+      .col-xs-12
+        == outlet
+
+  footer#non-manager-footer
+    .container
+      .row
+        .col-xs-12
+          h4.footer-title
+            span.fa logistics

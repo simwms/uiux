@@ -1,0 +1,11 @@
+em-form-for action="create" model=report
+  em-form-input name="startAt" label="start date" type="date"
+    span.help-block the starting date
+  
+  em-form-input name="finishAt" label="finish date" type="date"
+    span.help-block the end date
+  
+  .actions
+    a.btn.btn-success.btn-lg.btn-hover href=reportLink target="blank"
+      i.fa.fa-check
+      span.capitalize.bold generate

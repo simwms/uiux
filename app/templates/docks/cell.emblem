@@ -1,0 +1,28 @@
+h2.section-title
+  span.fa cell # 
+  span.fa= model.colName
+  span.fa= model.rowName
+
+.row
+  .col-xs-12
+    link-to "docks.inventories.index" class="btn btn-default"
+      i.fa.fa-caret-left
+      span.fa.capitalize.prespace back to inventory
+.row.info
+  .col-xs-12
+    table.table-striped.table-bordered.table
+      thead
+        tr
+          th id
+          th desc
+          th quant
+          th ETA
+          th appt
+      tbody
+        each model.batches as |batch|
+          tr
+            td= batch.id
+            td= batch.description
+            td= batch.quantity
+            td= batch.createdAt
+            td= batch.appointmentId

@@ -1,0 +1,7 @@
+#application-index.full-screen-modal
+  .modal-container
+    .container
+      .row
+        .col-lg-10.col-md-12.col-sm-12.col-xs-12.col-lg-offset-1
+          .modal-box
+            == partial "sessions/setup"

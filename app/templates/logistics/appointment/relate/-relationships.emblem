@@ -1,0 +1,18 @@
+ember-list items=appointmentRelationships height=300 rowHeight=50 classNames="ember-list-panel-group"
+  link-to "logistics.appointment.relate.appointment" pickup.id dropoff.id classNames="list-group-item" activeClass="list-group-item-success"
+    ul.list-inline
+      li
+        if isLoaded
+          i.fa.fa-check
+        else
+          i.fa.fa-square-o
+      li
+        span.fa.capitalize.bold #
+        span.fa= dropoff.permalink
+      if dropoff.externalReference
+        li
+          span.fa.bold.colon ref
+          span.fa= dropoff.externalReference
+      li.pull-right
+        link-to "logistics.appointment" dropoff.id
+          small= ago dropoff.expectedAt

@@ -1,0 +1,40 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize coming trucks
+
+  p.panel-body The following trucks are heading to this dock
+
+  .list-group
+    each comingDockedTrucks as |truck|
+      .list-group-item.pointer click="'arrive' truck"
+        h5
+          i.fa.fa-truck
+          span.fa.capitalize.bold.colon truck plate
+          span.fa.prespace.spacebar= truck.weighticket.licensePlate
+          span.fa.capitalize.bold.colon from appointment number
+          span.fa.prespace= truck.appointment.permalink
+          span.pull-right
+            span.fa click when this truck arrives
+    else
+      .list-group-item no trucks are headed this way
+
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize docked trucks
+
+  p.panel-body The following trucks are docked here
+
+  .list-group
+    each alreadyDockedTrucks as |truck|
+      link-to "docks.truck.arrive" truck.id class="list-group-item"
+        h5
+          i.fa.fa-truck
+          span.fa.capitalize.bold.colon truck plate
+          span.fa.prespace.spacebar= truck.weighticket.licensePlate
+          span.fa.capitalize.bold.colon from appointment number
+          span.fa.prespace= truck.appointment.permalink
+          span.pull-right
+            span.fa.bold.colon docked at
+            span.fa.prespace= ago truck.dockedAt
+    else
+      .list-group-item no trucks are docked here

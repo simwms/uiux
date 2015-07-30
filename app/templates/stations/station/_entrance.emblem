@@ -1,0 +1,30 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa.capitalize expected appointment
+  .panel-body
+    p.capitalize we are currently expecting the following appointments
+    table.table.responsive-table.table-hover.appointments
+      thead
+        tr
+          th status
+          th appointment number
+          th company
+          th material description
+          th ETA
+      tbody
+        each appointments as |appointment|
+          link-to "stations.station.weightickets.new" station.id (query-params appointment=appointment.id) tagName="tr" classNames="pointer" data-appointment-id=appointment.id
+            td data-label="status"
+              if appointment.hasTruckOnSite
+                i.fa.fa-truck
+                span.fa on site
+              else
+                span.fa= appointment.status
+            td data-label="appointment number" 
+              span.fa= appointment.permalink
+            td data-label="company" 
+              span.fa= appointment.company
+            td data-label="material description" 
+              span.fa= appointment.materialDescription
+            td data-label="ETA" 
+              span.fa= appointment.expectedAtAgo

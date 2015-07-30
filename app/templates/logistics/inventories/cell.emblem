@@ -1,0 +1,71 @@
+
+.row
+  .col-xs-12.col-sm-12.col-md-6.col-lg-3
+    .btn-group.btn-group-justified
+      link-to "logistics.inventories.index" class="btn btn-default"
+        i.fa.fa-caret-left
+        span.fa.capitalize.prespace back to inventory
+.row
+  .col-xs-12.col-sm-12.col-md-12.col-lg-6
+    .panel.panel-default
+      .panel-heading 
+        span.fa.capitalize storage cell # 
+        span= model.nameOrId
+
+      if model.batches
+        .panel-body: span.fa Batches stored here
+        ember-list-standin items=model.batches classNames="ember-list-panel-group" as |item|
+          link-to "logistics.inventories.batch" item.id classNames="list-group-item"
+            ul.list-inline
+              li
+                span.fa.bold.capitalize.colon id
+                span.fa= item.id
+              li
+                span.fa.bold.capitalize.colon description
+                span.fa= item.description
+              li
+                span.fa.bold.capitalize.colon quantity
+                span.fa= item.quantity
+              li
+                span.fa.bold.capitalize.colon arrived
+                span.fa= ago item.createdAt
+              li
+                span.fa.bold.capitalize appt no.
+                span.fa= item.appointment.permalink
+      else
+        .panel-body: span.fa No batches stored here
+
+      .panel-footer: span.fa {{num model.batches.length}} batch(es) stored here
+
+  .col-xs-12.col-sm-12.col-md-12.col-lg-6
+    .panel.panel-default
+      .panel-heading 
+        span.fa.capitalize storage cell # 
+        span= model.nameOrId
+
+      if model.batchesCollection.uniqAppointments
+        .panel-body: span.fa Appointments here
+        ember-list-standin items=model.batchesCollection.uniqAppointments classNames="ember-list-panel-group" as |item|
+          link-to "logistics.appointment" item.id classNames="list-group-item"
+            ul.list-inline
+              li
+                span.fa.bold Appt No.
+                span= item.permalink
+              li
+                span.fa.bold batch(es):&nbsp;
+                span= num item.batches.length
+              li
+                span.fa.bold Arrived&nbsp;
+                span= ago item.fulfilledAt
+              li
+                span.fa.bold From:&nbsp;
+                span= item.company
+      else
+        .panel-body: span.fa No appointments found
+
+      .panel-footer: span.fa {{num model.batchesCollection.uniqAppointments.length}} appointment(s) here
+.row
+  each model.batches as |batch|
+    each batch.pictures as |picture|
+      .col-lg-4.col-md-4.col-sm-6.col-xs-6
+        img.thumbnail.bound src=picture.normal

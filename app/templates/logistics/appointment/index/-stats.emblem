@@ -1,0 +1,38 @@
+dl
+  dt.capitalize appointment type
+  dd
+    span.fa= model.appointmentType
+  unless (eq model.appointmentType "dropoff")
+    dt.capitalize picked up
+    dd
+      span.fa {{num model.outgoingBatches.length}} batch(es)
+  unless (eq model.appointmentType "pickup")
+    dt.capitalize dropped off
+    dd: span.fa {{num model.batches.length}} batch(es)
+  dt.capitalize data id
+  dd
+    span.fa= model.id
+  dt.capitalize appointment number
+  dd
+    span.fa= model.permalink
+  dt.capitalize material description
+  dd
+    span.fa= model.materialDescription
+  dt.capitalize company
+  dd
+    span.fa= model.company
+  dt.capitalize notes
+  dd
+    span.fa= model.notes
+  dt.capitalize status
+  dd
+    span.fa= model.status
+  dt.capitalize createdAt
+  dd
+    span.fa= moment model.createdAt
+  dt.capitalize updatedAt
+  dd
+    span.fa= moment model.updatedAt
+  dt.capitalize expectedAt
+  dd
+    span.fa= moment model.expectedAt

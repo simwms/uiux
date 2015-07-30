@@ -1,0 +1,19 @@
+.list-group-item.pointer click="'toggleBatch' relationship"
+  .list-group-item-heading
+    if relationship.isLoaded
+      i.fa.fa-check
+    else
+      i.fa.fa-square-o
+    span.fa.bold From appt no.
+    span.fa= dropoff.permalink
+  .list-group-item-text
+    ul.list-inline
+      li
+        span.fa.colon.bold.capitalize at
+        span.fa= relationship.batch.warehouse.nameOrId
+      li
+        span.fa.colon.bold.capitalize description
+        span.fa= relationship.batch.description
+      li.pull-right
+        link-to "logistics.inventories.batch" relationship.batch.id
+          span.fa= ago relationship.batch.createdAt

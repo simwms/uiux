@@ -1,0 +1,46 @@
+.list-group
+  if model.isRelateable
+    link-to "logistics.appointment.relate" model.id classNames="list-group-item"
+      i.fa.fa-link
+      span.fa relate appointment
+  if model.canReschedule
+    link-to "logistics.appointment.reschedule" model.id class="list-group-item"
+      i.fa.fa-calendar
+      span.fa reschedule appointment
+  link-to "logistics.appointment.edit" model.id class="list-group-item"
+    i.fa.fa-edit
+    span.fa edit appointment
+  if model.isCancellable
+    promise-button model=model tagName="div" classNames="list-group-item list-group-item-warning pointer" action="cancel"
+      i.fa.fa-trash
+      span.fa cancel appointment
+  if model.statusIsCancelled
+    promise-button model=model tagName="div" classNames="list-group-item list-group-item-warning pointer" action="uncancel"
+      i.fa.fa-trash
+      span.fa uncancel appointment
+  if model.statusIsProblem
+    promise-button model=model tagName="div" classNames="list-group-item list-group-item-success pointer" action="resolveProblem"
+      i.fa.fa-trash
+      span.fa resolve problem
+
+if showprob
+  em-form-for action="submitProblem"
+    .panel.panel-danger
+      .panel-heading.pointer click="unproblem"
+        i.fa.fa-warning
+        span.fa.capitalize report problem
+      .panel-body
+        em-form-input name="notes" type="text" labelText="problem message"
+      
+      .list-group
+        promise-button model=model classNames="list-group-item btn-block align-left" type="submit"
+          i.fa.fa-check
+          span.fa submit
+        .list-group-item.pointer click="unproblem"
+          i.fa.fa-times
+          span.fa cancel
+else
+  .list-group
+    .list-group-item.list-group-item-danger.pointer click="problem"
+      i.fa.fa-warning
+      span.fa.capitalize report problem

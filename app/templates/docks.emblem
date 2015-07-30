@@ -1,0 +1,29 @@
+#main-nav
+  nav.navbar.navbar-default
+    .container
+      link-to "docks" class="navbar-brand"
+        span.capitalize.bold loading docks index
+
+      ul.nav.navbar-nav
+        li
+          link-to "docks.inventories"
+            i.fa.fa-cubes
+            span.capitalize inventory
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          link-to "index"
+            i.fa.fa-sign-out
+
+
+#scalemaster-application.non-manager-application
+  section#scale-info
+    .container
+      == outlet 
+      
+  footer#non-manager-footer
+    .container
+      .row
+        .col-xs-12
+          h4.footer-title
+            span.fa docks

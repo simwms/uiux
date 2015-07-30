@@ -1,0 +1,36 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading.instruction-line
+        h4
+          span.fa.capitalize confirm truck departure
+      p.panel-body.instruction-line
+        span.fa Before the truck can leave, it must be given an exit weighticket.
+        span.fa It is also possible to skip weighing truck and let it go as is.
+        
+      .panel-body.instruction-line
+        ul
+          li
+            span.fa.capitalize.bold.colon license plate
+            span.fa.prespace= model.weighticket.licensePlate
+          li
+            span.fa.capitalize.bold.colon appointment number
+            span.fa.prespace= model.appointment.permalink
+          li
+            span.fa.capitalize.bold.colon arrived at
+            span.fa.prespace= moment model.arrivedAt
+          li
+            span.fa.capitalize.bold.colon docked at
+            span.fa.prespace= moment model.dockedAt
+          li
+            span.fa.capitalize.bold.colon undocked at
+            span.fa.prespace= moment model.undockedAt
+
+      p.panel-body.instruction-line.align-center
+        .btn-group
+          link-to "stations.truck.complete" model.id classNames="btn btn-success btn-hover btn-lg"
+            i.fa.fa-book
+            span.capitalize weigh truck first
+          link-to "stations.truck.exit" model.id classNames="btn btn-danger btn-hover btn-lg"
+            i.fa.fa-sign-out
+            span.capitalize let truck leave

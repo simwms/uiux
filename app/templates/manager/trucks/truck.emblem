@@ -1,0 +1,39 @@
+.panel.panel-default
+  .panel-heading
+    span.fa.capitalize.bold truck from appt no.
+    span.fa.prespace= model.appointmentNumber
+  .panel-body
+    .row
+      each model.weighticket.pictures as |pic|
+        .col-lg-4.col-md-4.col-sm-6.col-xs-6
+          a href=pic.normal target="blank"
+            img.thumbnail src=pic.thumbnail
+      else
+        .col-xs-12
+          span.notice no pictures available
+  .list-group
+    .list-group-item
+      span.fa.bold.colon.capitalize arrived at
+      span.fa.prespace= model.arrivedAtAgo
+    .list-group-item
+      span.fa.bold.colon.capitalize license plate
+      span.fa.prespace= model.weighticket.licensePlate
+    .list-group-item
+      span.fa.bold.colon.capitalize location
+      span.fa.prespace= model.position
+    .list-group-item
+      span.fa.bold.colon.capitalize origin
+      span.fa.prespace= model.appointment.company
+    .list-group-item
+      span.fa.bold.colon.capitalize description
+      span.fa.prespace= model.appointment.materialDescription
+    .list-group-item
+      span.fa.bold.colon.capitalize notes
+      span.fa.prespace= model.weighticket.notes
+
+
+
+.actions
+  button.btn.btn-primary.close-button click="closeModal"
+    i.fa.fa-times
+    span.prespace.upcase dismiss

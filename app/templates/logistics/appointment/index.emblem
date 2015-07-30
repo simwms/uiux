@@ -1,0 +1,21 @@
+.row
+  .col-xs-12
+    link-to "logistics.appointments" class="btn btn-default"
+      i.fa.fa-caret-left
+      span.fa.capitalize back to appointment index
+.row
+  .col-xs-12.col-sm-12.col-md-6.col-lg-4
+    .panel.panel-default
+      .panel-heading: span.fa.capitalize actions
+      == partial "logistics/appointment/index/choices"
+
+  .col-xs-12.col-sm-12.col-md-6.col-lg-4
+    .panel.panel-default
+      .panel-heading: span.fa.capitalize stats
+      .panel-body
+        == partial "logistics/appointment/index/stats"
+
+  .col-xs-12.col-sm-12.col-md-12.col-lg-4
+    .panel.panel-default
+      .panel-heading: span.fa.capitalize related stuff
+      == partial "logistics/appointment/index/relations"

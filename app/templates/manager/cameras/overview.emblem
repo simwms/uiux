@@ -1,0 +1,15 @@
+.row
+  each model as |camera|
+    .col-lg-3.col-md-4.col-sm-12.col-xs-12
+      adaptive-camera camera=camera
+  else
+    .col-xs-12
+      h4.alert.alert-warning
+        i.fa.fa-warning
+        span.fa You have no cameras setup!
+      
+
+.actions
+  button.btn.btn-primary.close-button click="closeModal"
+    i.fa.fa-times
+    span.prespace.upcase dismiss

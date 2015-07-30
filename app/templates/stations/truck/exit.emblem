@@ -1,0 +1,18 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading.instruction-line
+        span.fa.capitalize the truck is leaving
+          
+      .panel-body.instruction-line
+        p If relevant, print and give the driver the new weighticket if you created one.
+        p Otherwise click to mark the truck has left site.
+        
+        .btn-group
+          a.btn.btn-success.btn-hover.btn-lg href=printTicketLink target="blank"
+            i.fa.fa-print
+            span.capitalize print view
+
+          link-to "stations.station" truck.exitScale.id classNames="btn btn-default btn-hover btn-lg"
+            i.fa.fa-sign-out
+            span.capitalize mark truck left

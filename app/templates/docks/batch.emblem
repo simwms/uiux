@@ -1,0 +1,58 @@
+.row
+  .col-xs-12
+    .btn-group.btn-group-lg
+      link-to "docks.dock.index" model.dock.id class="btn btn-default"
+        i.fa.fa-dashboard
+        span.fa.nav-title dash
+      link-to "docks.dock.status" model.dock.id class="btn btn-default"
+        i.fa.fa-camera
+        span.fa.nav-title status
+      link-to "docks.dock.problem" model.dock.id class="btn btn-default"
+        i.fa.fa-warning
+        span.fa.nav-title problem
+      link-to "docks.batch" model.id class="btn btn-default"
+        i.fa.fa-cubes
+        span.fa.nav-title bale instructions
+.row
+  .col-xs-12
+    .panel.panel-default.instructions-set
+      .panel-heading.instruction-line
+        span.fa tag and store this bale
+      .panel-body 
+        .row
+          .col-xs-12.col-sm-12.col-md-6.col-lg-6
+            img.thumbnail.bound src="images/barcode.png"
+          .col-xs-12.col-sm-12.col-md-6.col-lg-6
+            h3.instruction
+              span.fa.bold.colon.capitalize storage section
+              span.fa.highlight.prespace= model.warehouse.nameOrId
+            ul
+              li
+                span.fa.bold.colon.capitalize id
+                span.fa.prespace
+                  span batch-
+                  span= model.id
+              li
+                span.fa.bold.colon.capitalize origin appointment
+                span.fa.prespace= model.appointment.permalink
+              li
+                span.fa.bold.colon.capitalize owner
+                span.fa.prespace= model.appointment.company
+              li
+                span.fa.bold.colon.capitalize loading dock
+                span.fa.prespace= model.dock.nameOrId
+              li
+                span.fa.bold.colon.capitalize quantity
+                span.fa.prespace= model.quantity
+              li
+                span.fa.bold.colon.capitalize description
+                span.fa.prespace= model.description
+              li
+                span.fa.bold.colon.capitalize arrived at
+                span.fa.prespace= moment model.createdAt
+              li
+                span.fa.bold.colon.capitalize truck id
+                span.fa.prespace= model.truck.id
+              
+        link-to "docks.truck.arrive" model.truck.id class="btn btn-lg btn-success btn-hover"
+          span.fa.capitalize done

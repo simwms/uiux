@@ -1,0 +1,39 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa from appointment no.
+    span.highlight= truck.appointmentPermalink
+    span.fa is coming to this dock
+  .panel-body 
+    figure
+      figcaption
+        span.fa Unload the truck and label each pallet. The loading process is being record
+      each truck.dock.cameras as |camera|
+        adaptive-camera camera=camera
+      else
+        h5.fa.parantheses this dock has no cameras
+
+  p.panel-body
+    span.fa.capitalize.bold.colon truck docked at
+    span.fa= ago truck.dockedAt
+
+  .list-group
+    .list-group-item
+      h4.fa.capitalize.bold already unloaded batches
+    each truck.batches as |batch|
+      .list-group-item
+        span.fa.spacebar= moment batch.createdAt
+        span.fa.bold currently at storage section:
+        span.fa= batch.warehouse.nameOrId
+    else
+      .list-group-item nothing has been unloaded yet
+
+  .panel-body
+    .btn-group
+      link-to "docks.truck.batches.new" truck.id (query-params warehouse=truck.preferredWarehouse.id) class="btn btn-lg btn-success btn-hover"
+        span.fa.capitalize pallet from truck
+      link-to "docks.truck.depart" truck.id class="btn btn-lg btn-default btn-hover"
+        span.fa.capitalize finished unloading
+  
+  .list-group
+    .list-group-item.instruction-line
+      span.fa.capitalize finish

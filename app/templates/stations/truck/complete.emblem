@@ -1,0 +1,26 @@
+.col-xs-12
+  .panel.panel-default
+    .panel-heading.instruction-line
+      span.fa.capitalize complete weighticket information
+
+    em-form-for model=weighticket mistakes=mistakes action="completeTicket" classNames="panel-body instruction-line"
+      dl
+        dt.capitalize initial weight
+        dd= weighticket.pounds
+      
+      em-form-input name="finishPounds" type="number" label="final weight" suffix="lbs"
+        span.help-block read this off the scale
+
+      dl
+        dt.capitalize net weight
+        dd= weighticket.netWeight
+
+      em-form-input name="notes" type="textarea" label="notes"
+        span.help-block additional notes
+      .btn-group
+        promise-button model=model classNames="btn btn-success btn-hover btn-lg" type="submit"
+          i.fa.fa-check
+          span.capitalize finalize weighticket
+        link-to "stations.truck.departure" model.id classNames="btn btn-default btn-hover btn-lg"
+          i.fa.fa-times
+          span.capitalize cancel

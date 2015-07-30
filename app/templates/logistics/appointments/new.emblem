@@ -1,0 +1,39 @@
+.row
+  .col-xs-12
+    link-to "logistics.appointments.index" class="btn btn-default btn-lg btn-hover"
+      i.fa.fa-caret-left
+      span.capitalize.bold back
+
+h2.section-title
+  span.fa.capitalize new {{model.appointmentType}} appointment
+
+.row
+  .col-xs-12.col-sm-12.col-md-9.col-lg-6.col-lg-push-6
+
+  .col-xs-12.col-sm-12.col-md-9.col-lg-6.col-lg-pull-6
+    em-form-for mistakes=appointmentError action="create" model=appointment
+      em-form-input label="appointment type" name="appointmentType" type="select" content=appointmentChoices optionValuePath='value' optionLabelPath='presentation'
+        span.help-block Pickup appointments will require us to specify what is to be picked up.
+
+      em-form-input name="company" label="company" type="text"
+      
+      em-form-input name="materialDescription" label="material description" type="text"
+        span.help-block Write a short description for what materials will be transacted in this appointment
+      
+      em-form-input name="expectedAtISO" label="ETA" type="datetime"
+        unless withinWorkingHours
+          h6.alert.alert-warning
+            i.fa.fa-warning
+            span.fa are you sure you want to set an expected time outside work hours?
+
+      em-form-input name="externalReference" label="external reference number" type="string"
+      
+      em-form-input name="notes" label="notes" type="textarea"
+      
+      .actions
+        promise-button model=appointment classNames="btn btn-success btn-lg btn-hover" type="submit"
+          i.fa.fa-check
+          if pickupTypeSelected
+            span.capitalize.bold continue
+          else
+            span.capitalize.bold submit

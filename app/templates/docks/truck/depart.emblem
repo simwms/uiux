@@ -1,0 +1,19 @@
+.panel.panel-default.instructions-set
+  .panel-heading.instruction-line
+    span.fa the truck from appointment no.
+    span.highlight= model.appointment.permalink
+    span.fa is ready to depart
+  .panel-body 
+    p.instructions
+      span.fa instruct the driver to proceed to the exit weight station
+
+  em-form-for model=model mistakes=mistakes action="finish" classNames="panel-body instruction-line"
+    em-form-input name="exitScale" type="select" label="truck exit station" content=stationChoices optionValuePath='value' optionLabelPath='presentation'
+      span.help-block
+        span.fa if you don't like my suggestion, please pick a station yourself
+
+    .btn-group
+      promise-button model=model classNames="btn btn-success btn-hover btn-lg" type="submit"
+        i.fa.fa-check
+        span.capitalize finish
+      

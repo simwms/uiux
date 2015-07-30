@@ -1,0 +1,27 @@
+.col-xs-12
+  .panel.panel-default
+    .panel-heading.instruction-line
+      span.fa create a weight ticket for the truck
+
+    .row
+      .col-xs-12.col-sm-12.col-md-9.col-lg-6
+        == partial 'stations/station/weightickets/form'
+      .hidden-xs.hidden-sm.col-md-3.col-lg-6
+        dl.dl-horizontal
+          each model.docks as |barn|
+            dt
+              span.fa.bold dock no.
+              span.fa.bold= barn.nameOrId
+            dd= barn.status
+
+    .list-group
+      if model.id
+        link-to "stations.weighticket.print" model.id classNames="list-group-item instruction-line"
+          span.fa print out weight ticket
+      else
+        .list-group-item.instruction-line
+          span.fa print out weight ticket
+      .list-group-item.instruction-line
+        span.fa give weight ticket to driver
+
+      
