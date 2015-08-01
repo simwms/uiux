@@ -3,5 +3,9 @@
 @import "animation/core";
 @import "common";
 
+@function images-url($path) {
+  @return url("images/" + $path);
+}
+
 @import "components";
 @import "templates";

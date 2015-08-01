@@ -11,7 +11,7 @@
       position: center center;
     }
     @include opacity(0.5);
-    background-image: url("/images/simcity.jpg");
+    background-image: images-url("simcity.jpg");
   }
   background: {
     color: #000;

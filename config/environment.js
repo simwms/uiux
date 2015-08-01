@@ -6,6 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     printNamespace: "/print",
     simwmsNamespace: "api",
+    simwmsHost: "https://lit-atoll-7843.herokuapp.com",
     namespace: "apiv2",
     baseURL: '/',
     locationType: 'auto',
@@ -51,7 +52,8 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'staging') {  
+  if (environment === 'staging') {
+    ENV.printHost = "https://safe-forest-2497.herokuapp.com";
     ENV.host = "https://safe-forest-2497.herokuapp.com";
     ENV.simwmsHost = "https://lit-atoll-7843.herokuapp.com";
     ENV.locationType = 'hash';
@@ -59,7 +61,6 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.host = "https://safe-forest-2497.herokuapp.com";
     ENV.simwmsHost = "http://api.simwms.com";
     ENV.locationType = 'hash';
   }

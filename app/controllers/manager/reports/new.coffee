@@ -6,6 +6,9 @@ ManagerReportsNewController = Em.Controller.extend
     query =
       start_at: @get("report.startAt")
       finish_at: @get("report.finishAt")
-    "#{ENV.printNamespace}/reports?#{Ember.$.param query}"
+    url = [ENV.printHost, ENV.printNamespace, "reports"]
+    .filter Em.isPresent
+    .join("/")
+    "#{url}?#{Ember.$.param query}"
 
 `export default ManagerReportsNewController`
