@@ -5,11 +5,12 @@ module.exports = function(environment) {
     modulePrefix: 'uiux',
     environment: environment,
     printNamespace: "/print",
-    simwmsNamespace: "apiv2",
+    simwmsNamespace: "api",
+    namespace: "apiv2",
     baseURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: { 
-      'connect-src': "'self' ws://localhost:4000 https://*.amazonaws.com http://*.simwms.com",
+      'connect-src': "'self' https://*.amazonaws.com http://*.simwms.com https://*.herokuapp.com",
       "img-src": "*",
       "media-src": "'self' http://localhost:*",
       "font-src": "*",
@@ -50,10 +51,17 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
+  if (environment === 'staging') {  
+    ENV.host = "https://safe-forest-2497.herokuapp.com";
+    ENV.simwmsHost = "https://safe-forest-2497.herokuapp.com";
+    ENV.locationType = 'hash';
+    ENV.baseURL = '/uiux';
+  }
+
   if (environment === 'production') {
-    ENV.printNamespace = "/print";
+    ENV.host = "https://safe-forest-2497.herokuapp.com";
     ENV.simwmsHost = "http://api.simwms.com";
-    ENV.locationType = 'none';
+    ENV.locationType = 'hash';
   }
 
   return ENV;

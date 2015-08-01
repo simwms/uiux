@@ -1,9 +1,9 @@
 `import DS from 'ember-data'`
+`import ENV from 'uiux/config/environment'`
 
 ApplicationAdapter = DS.ActiveModelAdapter.extend # PhoenixChan,
-  namespace: "apiv2"
-  socketNamespace: "apiv2"
-  socketHost: "ws://localhost:4000"
+  namespace: ENV.namespace
+  host: ENV.host
 
   shouldReloadAll: -> true
   shouldBackgroundReloadRecord: -> true
