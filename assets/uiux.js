@@ -1554,12 +1554,13 @@ define('uiux/controllers/manager/reports/new', ['exports', 'ember', 'uiux/config
   ManagerReportsNewController = Em['default'].Controller.extend({
     report: Em['default'].computed.alias("model"),
     reportLink: Ember.computed("report.startAt", "report.finishAt", function () {
-      var query;
+      var query, url;
       query = {
         start_at: this.get("report.startAt"),
         finish_at: this.get("report.finishAt")
       };
-      return ENV['default'].printNamespace + "/reports?" + Ember.$.param(query);
+      url = [ENV['default'].printHost, ENV['default'].printNamespace, "reports"].filter(Em['default'].isPresent).join("/");
+      return url + "?" + Ember.$.param(query);
     })
   });
 
@@ -32159,7 +32160,7 @@ catch(err) {
 if (runningTests) {
   require("uiux/tests/test-helper");
 } else {
-  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+216eaec1"});
+  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+87d06c4d"});
 }
 
 /* jshint ignore:end */

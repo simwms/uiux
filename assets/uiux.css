@@ -6547,7 +6547,7 @@ img.bound {
     background-position: center center;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
     opacity: 0.5;
-    background-image: url("/images/simcity.jpg"); }
+    background-image: url("images/simcity.jpg"); }
   #application-index .modal-box {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
