@@ -53,7 +53,7 @@ module.exports = function(environment) {
 
   if (environment === 'staging') {  
     ENV.host = "https://safe-forest-2497.herokuapp.com";
-    ENV.simwmsHost = "https://safe-forest-2497.herokuapp.com";
+    ENV.simwmsHost = "https://lit-atoll-7843.herokuapp.com";
     ENV.locationType = 'hash';
     ENV.baseURL = '/uiux';
   }
