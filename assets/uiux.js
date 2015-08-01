@@ -32159,7 +32159,7 @@ catch(err) {
 if (runningTests) {
   require("uiux/tests/test-helper");
 } else {
-  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+4386f3fd"});
+  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+216eaec1"});
 }
 
 /* jshint ignore:end */
