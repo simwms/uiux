@@ -1,16 +1,14 @@
 h2.modal-title
-  span.fa Login
+  span.fa Authentication Required
 
-.list-group
-  link-to "manager" class="list-group-item"
-    i.fa.fa-institution
-    span.fa manager overview
-  link-to "docks" class="list-group-item"
-    i.fa.fa-truck
-    span.fa loading docks
-  link-to "stations" class="list-group-item"  
-    i.fa.fa-bell
-    span.fa weight stations
-  link-to "logistics" class="list-group-item"
-    i.fa.fa-pencil
-    span.fa logistics
+em-form-for model=model mistakes=mistakes action="submit"
+  em-form-input type="text" name="accountId" label="Account Id"
+  em-form-input type="text" name="rememberToken" label="Memory Token"
+
+  .actions
+    if isBusy
+      == partial "sessions/setup"
+    else
+      button.btn.btn-primary.btn-lg type="submit"
+        i.fa.fa-check
+        span.fa Submit

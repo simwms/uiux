@@ -2,7 +2,7 @@
 
 StationsRoute = Ember.Route.extend
   model: ->
-    @modelFor "application"
+    @store.findAll "tile"
     .filterBy "tileType", "scale"
 
 `export default StationsRoute`

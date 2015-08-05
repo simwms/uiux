@@ -2,7 +2,7 @@
 
 DocksRoute = Ember.Route.extend
   model: ->
-    @modelFor "application"
+    @store.findAll "tile"
     .filterBy "tileType", "barn"
 
 `export default DocksRoute`

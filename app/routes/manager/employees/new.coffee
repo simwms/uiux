@@ -3,9 +3,11 @@
 
 ManagerEmployeesNewRoute = Ember.Route.extend
   model: ->
-    tiles = Tiles.fromTiles @modelFor("application")
-    @store.createRecord "employee",
-      tiles: tiles
+    @store.findAll "tile"
+    .then Tiles.fromTiles
+    .then (tiles) =>
+      @store.createRecord "employee",
+        tiles: tiles
 
   tearDown: Ember.on "deactivate", ->
     model = @controller.get "model"

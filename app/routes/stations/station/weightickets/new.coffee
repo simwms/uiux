@@ -5,8 +5,10 @@ StationsStationWeighticketsNewRoute = Ember.Route.extend
   queryParams:
     appointment: true
   model: ({appointment}) ->
-    tiles = @modelFor("application")
-    @setupWeighticket(appointment, Docks.fromTiles(tiles))
+    @store.findAll "tile"
+    .then Docks.fromTiles
+    .then (docks) =>
+      @setupWeighticket(appointment, docks)
 
   setupWeighticket: (apptId, docks) ->
     @store.find("appointment", apptId)

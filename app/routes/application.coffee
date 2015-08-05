@@ -1,11 +1,19 @@
 `import Ember from 'ember'`
 
-ApplicationRoute = Ember.Route.extend 
+ApplicationRoute = Ember.Route.extend
+  queryParams:
+    token:
+      refreshModel: true
+    account:
+      refreshModel: true
+
+  model: (params) ->
+    @currentUser.configure(params)
+    @currentUser.setup(@store)
+
   isBusy: Ember.computed.alias "controllerPen.isBusy"
   isPending: Ember.computed.alias "isBusy"
 
-  model: ->
-    @store.findAll "tile"
   actions:
     controllerWorking: (controller) ->
       @controllerPen.makeBusy controller

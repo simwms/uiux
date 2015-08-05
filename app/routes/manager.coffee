@@ -3,11 +3,11 @@
 
 ManagerRoute = Ember.Route.extend
   model: ->
-    tiles = @modelFor "application"
     batches = @store.peekAll "batch"
     Ember.RSVP.hash
+      tiles: @store.findAll "tile"
       appointments: @store.query "appointment", processMacro macro: "today"
       trucks: @store.findAll("truck").filterBy("departedAt", null)
-    .then ({trucks, appointments}) -> {trucks, batches, tiles, appointments}
+    .then ({trucks, appointments, tiles}) -> {trucks, batches, tiles, appointments}
 
 `export default ManagerRoute`

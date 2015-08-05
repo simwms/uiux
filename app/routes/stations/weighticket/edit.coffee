@@ -3,9 +3,11 @@
 
 StationsWeighticketEditRoute = Ember.Route.extend
   model: ->
-    tiles = @modelFor("application")
     weighticket = @modelFor "stations.weighticket"
-    weighticket.set "docks", Docks.fromTiles(tiles)
-    weighticket
+    @store.findAll "tile"
+    .then Dock.fromTiles
+    .then (docks) ->
+      weighticket.set "docks", docks
+      weighticket
 
 `export default StationsWeighticketEditRoute`

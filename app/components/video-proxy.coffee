@@ -1,5 +1,4 @@
 `import Ember from 'ember'`
-`import FunEx from '../utils/fun-ex'`
 
 VideoProxyComponent = Ember.Component.extend
   tagName: 'video'
@@ -11,12 +10,12 @@ VideoProxyComponent = Ember.Component.extend
   didInsertElement: ->
     @manageSource()
 
-  src: FunEx.computed "stream", ->
+  src: Ember.computed "stream", ->
     return if Ember.isBlank @get "stream"
     return if @get "stream.ended"
     window.URL.createObjectURL @get "stream"
     
-  manageSource: FunEx.observed "src", ->
+  manageSource: Ember.observer "src", ->
     return if Ember.isBlank @get "src"
     @set "videoPlayer", videojs @$()[0], @sizeOptions
     @get("videoPlayer").play()
