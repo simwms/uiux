@@ -84959,6 +84959,146 @@ case"millisecond":return Math.floor(24*b*60*60*1e3)+this._milliseconds;default:t
 }).call(this);
 
 
+;/*!
+ * JavaScript Cookie v2.0.3
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		var _OldCookies = window.Cookies;
+		var api = window.Cookies = factory(window.jQuery);
+		api.noConflict = function () {
+			window.Cookies = _OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				value = encodeURIComponent(String(value));
+				value = value.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
+					attributes.path    && '; path=' + attributes.path,
+					attributes.domain  && '; domain=' + attributes.domain,
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var name = parts[0].replace(rdecode, decodeURIComponent);
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					cookie = converter && converter(cookie, name) || cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.get = api.set = api;
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init();
+}));
+
 ;// AWS SDK for JavaScript v2.1.39
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // License at https://sdk.amazonaws.com/js/BUNDLE_LICENSE.txt
@@ -94483,7 +94623,534 @@ r.search=e.search,r.query=e.query,y=o;else if(o.length)y||(y=[]),y.pop(),y=y.con
 }();
 ;// WebcamJS v1.0.2 - http://github.com/jhuckaby/webcamjs - MIT Licensed
 (function(e){var Webcam={version:"1.0.2",protocol:location.protocol.match(/https/i)?"https":"http",swfURL:"",loaded:false,live:false,userMedia:true,params:{width:0,height:0,dest_width:0,dest_height:0,image_format:"jpeg",jpeg_quality:90,force_flash:false,flip_horiz:false,fps:30},hooks:{},init:function(){navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia;e.URL=e.URL||e.webkitURL||e.mozURL||e.msURL;this.userMedia=this.userMedia&&!!navigator.getUserMedia&&!!e.URL;if(navigator.userAgent.match(/Firefox\D+(\d+)/)){if(parseInt(RegExp.$1,10)<21)this.userMedia=null}},attach:function(t){if(typeof t=="string"){t=document.getElementById(t)||document.querySelector(t)}if(!t){return this.dispatch("error","Could not locate DOM element to attach to.")}this.container=t;t.innerHTML="";var a=document.createElement("div");t.appendChild(a);this.peg=a;if(!this.params.width)this.params.width=t.offsetWidth;if(!this.params.height)this.params.height=t.offsetHeight;if(!this.params.dest_width)this.params.dest_width=this.params.width;if(!this.params.dest_height)this.params.dest_height=this.params.height;if(this.params.force_flash)this.userMedia=null;if(typeof this.params.fps!=="number")this.params.fps=30;var i=this.params.width/this.params.dest_width;var s=this.params.height/this.params.dest_height;if(this.userMedia){var r=document.createElement("video");r.setAttribute("autoplay","autoplay");r.style.width=""+this.params.dest_width+"px";r.style.height=""+this.params.dest_height+"px";if(i!=1||s!=1){t.style.overflow="hidden";r.style.webkitTransformOrigin="0px 0px";r.style.mozTransformOrigin="0px 0px";r.style.msTransformOrigin="0px 0px";r.style.oTransformOrigin="0px 0px";r.style.transformOrigin="0px 0px";r.style.webkitTransform="scaleX("+i+") scaleY("+s+")";r.style.mozTransform="scaleX("+i+") scaleY("+s+")";r.style.msTransform="scaleX("+i+") scaleY("+s+")";r.style.oTransform="scaleX("+i+") scaleY("+s+")";r.style.transform="scaleX("+i+") scaleY("+s+")"}t.appendChild(r);this.video=r;var o=this;navigator.getUserMedia({audio:false,video:{mandatory:{minWidth:this.params.dest_width,minHeight:this.params.dest_height}}},function(t){r.src=e.URL.createObjectURL(t)||t;Webcam.stream=t;Webcam.loaded=true;Webcam.live=true;Webcam.dispatch("load");Webcam.dispatch("live");Webcam.flip()},function(e){return o.dispatch("error","Could not access webcam.")})}else{e.Webcam=Webcam;var h=document.createElement("div");h.innerHTML=this.getSWFHTML();t.appendChild(h)}if(this.params.crop_width&&this.params.crop_height){var n=Math.floor(this.params.crop_width*i);var l=Math.floor(this.params.crop_height*s);t.style.width=""+n+"px";t.style.height=""+l+"px";t.style.overflow="hidden";t.scrollLeft=Math.floor(this.params.width/2-n/2);t.scrollTop=Math.floor(this.params.height/2-l/2)}else{t.style.width=""+this.params.width+"px";t.style.height=""+this.params.height+"px"}},reset:function(){if(this.preview_active)this.unfreeze();this.unflip();if(this.userMedia){try{this.stream.stop()}catch(e){}delete this.stream;delete this.video}if(this.container){this.container.innerHTML="";delete this.container}this.loaded=false;this.live=false},set:function(){if(arguments.length==1){for(var e in arguments[0]){this.params[e]=arguments[0][e]}}else{this.params[arguments[0]]=arguments[1]}},on:function(e,t){e=e.replace(/^on/i,"").toLowerCase();if(!this.hooks[e])this.hooks[e]=[];this.hooks[e].push(t)},off:function(e,t){e=e.replace(/^on/i,"").toLowerCase();if(this.hooks[e]){if(t){var a=this.hooks[e].indexOf(t);if(a>-1)this.hooks[e].splice(a,1)}else{this.hooks[e]=[]}}},dispatch:function(){var t=arguments[0].replace(/^on/i,"").toLowerCase();var a=Array.prototype.slice.call(arguments,1);if(this.hooks[t]&&this.hooks[t].length){for(var i=0,s=this.hooks[t].length;i<s;i++){var r=this.hooks[t][i];if(typeof r=="function"){r.apply(this,a)}else if(typeof r=="object"&&r.length==2){r[0][r[1]].apply(r[0],a)}else if(e[r]){e[r].apply(e,a)}}return true}else if(t=="error"){alert("Webcam.js Error: "+a[0])}return false},setSWFLocation:function(e){this.swfURL=e},detectFlash:function(){var t="Shockwave Flash",a="ShockwaveFlash.ShockwaveFlash",i="application/x-shockwave-flash",s=e,r=navigator,o=false;if(typeof r.plugins!=="undefined"&&typeof r.plugins[t]==="object"){var h=r.plugins[t].description;if(h&&(typeof r.mimeTypes!=="undefined"&&r.mimeTypes[i]&&r.mimeTypes[i].enabledPlugin)){o=true}}else if(typeof s.ActiveXObject!=="undefined"){try{var n=new ActiveXObject(a);if(n){var l=n.GetVariable("$version");if(l)o=true}}catch(c){}}return o},getSWFHTML:function(){var t="";if(location.protocol.match(/file/)){this.dispatch("error","Flash does not work from local disk.  Please run from a web server.");return'<h3 style="color:red">ERROR: the Webcam.js Flash fallback does not work from local disk.  Please run it from a web server.</h3>'}if(!this.detectFlash()){this.dispatch("error","Adobe Flash Player not found.  Please install from get.adobe.com/flashplayer and try again.");return'<h3 style="color:red">ERROR: No Adobe Flash Player detected.  Webcam.js relies on Flash for browsers that do not support getUserMedia (like yours).</h3>'}if(!this.swfURL){var a="";var i=document.getElementsByTagName("script");for(var s=0,r=i.length;s<r;s++){var o=i[s].getAttribute("src");if(o&&o.match(/\/webcam(\.min)?\.js/)){a=o.replace(/\/webcam(\.min)?\.js.*$/,"");s=r}}if(a)this.swfURL=a+"/webcam.swf";else this.swfURL="webcam.swf"}if(e.localStorage&&!localStorage.getItem("visited")){this.params.new_user=1;localStorage.setItem("visited",1)}var h="";for(var n in this.params){if(h)h+="&";h+=n+"="+escape(this.params[n])}t+='<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" type="application/x-shockwave-flash" codebase="'+this.protocol+'://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="'+this.params.width+'" height="'+this.params.height+'" id="webcam_movie_obj" align="middle"><param name="wmode" value="opaque" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="false" /><param name="movie" value="'+this.swfURL+'" /><param name="loop" value="false" /><param name="menu" value="false" /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><param name="flashvars" value="'+h+'"/><embed id="webcam_movie_embed" src="'+this.swfURL+'" wmode="opaque" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="'+this.params.width+'" height="'+this.params.height+'" name="webcam_movie_embed" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="'+h+'"></embed></object>';return t},getMovie:function(){if(!this.loaded)return this.dispatch("error","Flash Movie is not loaded yet");var e=document.getElementById("webcam_movie_obj");if(!e||!e._snap)e=document.getElementById("webcam_movie_embed");if(!e)this.dispatch("error","Cannot locate Flash movie in DOM");return e},freeze:function(){var e=this;var t=this.params;if(this.preview_active)this.unfreeze();var a=this.params.width/this.params.dest_width;var i=this.params.height/this.params.dest_height;this.unflip();var s=t.crop_width||t.dest_width;var r=t.crop_height||t.dest_height;var o=document.createElement("canvas");o.width=s;o.height=r;var h=o.getContext("2d");this.preview_canvas=o;this.preview_context=h;if(a!=1||i!=1){o.style.webkitTransformOrigin="0px 0px";o.style.mozTransformOrigin="0px 0px";o.style.msTransformOrigin="0px 0px";o.style.oTransformOrigin="0px 0px";o.style.transformOrigin="0px 0px";o.style.webkitTransform="scaleX("+a+") scaleY("+i+")";o.style.mozTransform="scaleX("+a+") scaleY("+i+")";o.style.msTransform="scaleX("+a+") scaleY("+i+")";o.style.oTransform="scaleX("+a+") scaleY("+i+")";o.style.transform="scaleX("+a+") scaleY("+i+")"}this.snap(function(){o.style.position="relative";o.style.left=""+e.container.scrollLeft+"px";o.style.top=""+e.container.scrollTop+"px";e.container.insertBefore(o,e.peg);e.container.style.overflow="hidden";e.preview_active=true},o)},unfreeze:function(){if(this.preview_active){this.container.removeChild(this.preview_canvas);delete this.preview_context;delete this.preview_canvas;this.preview_active=false;this.flip()}},flip:function(){if(this.params.flip_horiz){var e=this.container.style;e.webkitTransform="scaleX(-1)";e.mozTransform="scaleX(-1)";e.msTransform="scaleX(-1)";e.oTransform="scaleX(-1)";e.transform="scaleX(-1)";e.filter="FlipH";e.msFilter="FlipH"}},unflip:function(){if(this.params.flip_horiz){var e=this.container.style;e.webkitTransform="scaleX(1)";e.mozTransform="scaleX(1)";e.msTransform="scaleX(1)";e.oTransform="scaleX(1)";e.transform="scaleX(1)";e.filter="";e.msFilter=""}},savePreview:function(e,t){var a=this.params;var i=this.preview_canvas;var s=this.preview_context;if(t){var r=t.getContext("2d");r.drawImage(i,0,0)}e(t?null:i.toDataURL("image/"+a.image_format,a.jpeg_quality/100),i,s);this.unfreeze()},snap:function(e,t){var a=this;var i=this.params;if(!this.loaded)return this.dispatch("error","Webcam is not loaded yet");if(!e)return this.dispatch("error","Please provide a callback function or canvas to snap()");if(this.preview_active){this.savePreview(e,t);return null}var s=document.createElement("canvas");s.width=this.params.dest_width;s.height=this.params.dest_height;var r=s.getContext("2d");if(this.params.flip_horiz){r.translate(i.dest_width,0);r.scale(-1,1)}var o=function(){if(this.src&&this.width&&this.height){r.drawImage(this,0,0,i.dest_width,i.dest_height)}if(i.crop_width&&i.crop_height){var a=document.createElement("canvas");a.width=i.crop_width;a.height=i.crop_height;var o=a.getContext("2d");o.drawImage(s,Math.floor(i.dest_width/2-i.crop_width/2),Math.floor(i.dest_height/2-i.crop_height/2),i.crop_width,i.crop_height,0,0,i.crop_width,i.crop_height);r=o;s=a}if(t){var h=t.getContext("2d");h.drawImage(s,0,0)}e(t?null:s.toDataURL("image/"+i.image_format,i.jpeg_quality/100),s,r)};if(this.userMedia){r.drawImage(this.video,0,0,this.params.dest_width,this.params.dest_height);o()}else{var h=this.getMovie()._snap();var n=new Image;n.onload=o;n.src="data:image/"+this.params.image_format+";base64,"+h}return null},configure:function(e){if(!e)e="camera";this.getMovie()._configure(e)},flashNotify:function(e,t){switch(e){case"flashLoadComplete":this.loaded=true;this.dispatch("load");break;case"cameraLive":this.live=true;this.dispatch("live");this.flip();break;case"error":this.dispatch("error",t);break;default:break}},b64ToUint6:function(e){return e>64&&e<91?e-65:e>96&&e<123?e-71:e>47&&e<58?e+4:e===43?62:e===47?63:0},base64DecToArr:function(e,t){var a=e.replace(/[^A-Za-z0-9\+\/]/g,""),i=a.length,s=t?Math.ceil((i*3+1>>2)/t)*t:i*3+1>>2,r=new Uint8Array(s);for(var o,h,n=0,l=0,c=0;c<i;c++){h=c&3;n|=this.b64ToUint6(a.charCodeAt(c))<<18-6*h;if(h===3||i-c===1){for(o=0;o<3&&l<s;o++,l++){r[l]=n>>>(16>>>o&24)&255}n=0}}return r},upload:function(e,t,a){var i="webcam";var s="";if(e.match(/^data\:image\/(\w+)/))s=RegExp.$1;else throw"Cannot locate image format in Data URI";var r=e.replace(/^data\:image\/\w+\;base64\,/,"");var o=new XMLHttpRequest;o.open("POST",t,true);if(o.upload&&o.upload.addEventListener){o.upload.addEventListener("progress",function(e){if(e.lengthComputable){var t=e.loaded/e.total;Webcam.dispatch("uploadProgress",t,e)}},false)}var h=this;o.onload=function(){if(a)a.apply(h,[o.status,o.responseText,o.statusText]);Webcam.dispatch("uploadComplete",o.status,o.responseText,o.statusText)};var n=new Blob([this.base64DecToArr(r)],{type:"image/"+s});var l=new FormData;l.append(i,n,i+"."+s.replace(/e/,""));o.send(l)}};Webcam.init();if(typeof define==="function"&&define.amd){define(function(){return Webcam})}else if(typeof module==="object"&&module.exports){module.exports=Webcam}else{e.Webcam=Webcam}})(window);
-;define('ember-cli-content-security-policy', ['ember-cli-content-security-policy/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
+;define('active-model-adapter', ['active-model-adapter/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
+  'use strict';
+  var keys = Object.keys || __Ember__['default'].keys;
+  var forEach = Array.prototype.forEach && function(array, cb) {
+    array.forEach(cb);
+  } || __Ember__['default'].EnumerableUtils.forEach;
+
+  forEach(keys(__index__), (function(key) {
+    __exports__[key] = __index__[key];
+  }));
+});
+
+define('active-model-adapter/active-model-adapter', ['exports', 'ember', 'ember-data'], function (exports, Ember, DS) {
+
+  'use strict';
+
+  var InvalidError = DS['default'].InvalidError;
+  var errorsHashToArray = DS['default'].errorsHashToArray;
+  var RESTAdapter = DS['default'].RESTAdapter;
+  var _Ember$String = Ember['default'].String;
+
+  /**
+    @module ember-data
+  */
+
+  /**
+    The ActiveModelAdapter is a subclass of the RESTAdapter designed to integrate
+    with a JSON API that uses an underscored naming convention instead of camelCasing.
+    It has been designed to work out of the box with the
+    [active\_model\_serializers](http://github.com/rails-api/active_model_serializers)
+    Ruby gem. This Adapter expects specific settings using ActiveModel::Serializers,
+    `embed :ids, embed_in_root: true` which sideloads the records.
+
+    This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
+    decamelization and pluralization methods to normalize the serialized JSON into a
+    format that is compatible with a conventional Rails backend and Ember Data.
+
+    ## JSON Structure
+
+    The ActiveModelAdapter expects the JSON returned from your server to follow
+    the REST adapter conventions substituting underscored keys for camelcased ones.
+
+    Unlike the DS.RESTAdapter, async relationship keys must be the singular form
+    of the relationship name, followed by "_id" for DS.belongsTo relationships,
+    or "_ids" for DS.hasMany relationships.
+
+    ### Conventional Names
+
+    Attribute names in your JSON payload should be the underscored versions of
+    the attributes in your Ember.js models.
+
+    For example, if you have a `Person` model:
+
+    ```js
+    App.FamousPerson = DS.Model.extend({
+      firstName: DS.attr('string'),
+      lastName: DS.attr('string'),
+      occupation: DS.attr('string')
+    });
+    ```
+
+    The JSON returned should look like this:
+
+    ```js
+    {
+      "famous_person": {
+        "id": 1,
+        "first_name": "Barack",
+        "last_name": "Obama",
+        "occupation": "President"
+      }
+    }
+    ```
+
+    Let's imagine that `Occupation` is just another model:
+
+    ```js
+    App.Person = DS.Model.extend({
+      firstName: DS.attr('string'),
+      lastName: DS.attr('string'),
+      occupation: DS.belongsTo('occupation')
+    });
+
+    App.Occupation = DS.Model.extend({
+      name: DS.attr('string'),
+      salary: DS.attr('number'),
+      people: DS.hasMany('person')
+    });
+    ```
+
+    The JSON needed to avoid extra server calls, should look like this:
+
+    ```js
+    {
+      "people": [{
+        "id": 1,
+        "first_name": "Barack",
+        "last_name": "Obama",
+        "occupation_id": 1
+      }],
+
+      "occupations": [{
+        "id": 1,
+        "name": "President",
+        "salary": 100000,
+        "person_ids": [1]
+      }]
+    }
+    ```
+
+    @class ActiveModelAdapter
+    @constructor
+    @namespace DS
+    @extends DS.RESTAdapter
+  **/
+
+  var pluralize = _Ember$String.pluralize;
+  var decamelize = _Ember$String.decamelize;
+  var underscore = _Ember$String.underscore;
+  var ActiveModelAdapter = RESTAdapter.extend({
+    defaultSerializer: '-active-model',
+    /**
+      The ActiveModelAdapter overrides the `pathForType` method to build
+      underscored URLs by decamelizing and pluralizing the object type name.
+       ```js
+        this.pathForType("famousPerson");
+        //=> "famous_people"
+      ```
+       @method pathForType
+      @param {String} modelName
+      @return String
+    */
+    pathForType: function pathForType(modelName) {
+      var decamelized = decamelize(modelName);
+      var underscored = underscore(decamelized);
+      return pluralize(underscored);
+    },
+
+    /**
+      The ActiveModelAdapter overrides the `handleResponse` method
+      to format errors passed to a DS.InvalidError for all
+      422 Unprocessable Entity responses.
+       A 422 HTTP response from the server generally implies that the request
+      was well formed but the API was unable to process it because the
+      content was not semantically correct or meaningful per the API.
+       For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
+      https://tools.ietf.org/html/rfc4918#section-11.2
+       @method ajaxError
+      @param {Object} jqXHR
+      @return error
+    */
+    handleResponse: function handleResponse(status, headers, payload) {
+      if (this.isInvalid(status, headers, payload)) {
+        var errors = errorsHashToArray(payload.errors);
+
+        return new InvalidError(errors);
+      } else {
+        return this._super.apply(this, arguments);
+      }
+    }
+  });
+
+  exports['default'] = ActiveModelAdapter;
+
+});
+define('active-model-adapter/active-model-serializer', ['exports', 'ember-data', 'ember'], function (exports, DS, Ember) {
+
+  'use strict';
+
+  var _Ember$String = Ember['default'].String;
+  var singularize = _Ember$String.singularize;
+  var classify = _Ember$String.classify;
+  var decamelize = _Ember$String.decamelize;
+  var camelize = _Ember$String.camelize;
+  var underscore = _Ember$String.underscore;
+  var RESTSerializer = DS['default'].RESTSerializer;
+
+  /**
+    The ActiveModelSerializer is a subclass of the RESTSerializer designed to integrate
+    with a JSON API that uses an underscored naming convention instead of camelCasing.
+    It has been designed to work out of the box with the
+    [active\_model\_serializers](http://github.com/rails-api/active_model_serializers)
+    Ruby gem. This Serializer expects specific settings using ActiveModel::Serializers,
+    `embed :ids, embed_in_root: true` which sideloads the records.
+
+    This serializer extends the DS.RESTSerializer by making consistent
+    use of the camelization, decamelization and pluralization methods to
+    normalize the serialized JSON into a format that is compatible with
+    a conventional Rails backend and Ember Data.
+
+    ## JSON Structure
+
+    The ActiveModelSerializer expects the JSON returned from your server
+    to follow the REST adapter conventions substituting underscored keys
+    for camelcased ones.
+
+    ### Conventional Names
+
+    Attribute names in your JSON payload should be the underscored versions of
+    the attributes in your Ember.js models.
+
+    For example, if you have a `Person` model:
+
+    ```js
+    App.FamousPerson = DS.Model.extend({
+      firstName: DS.attr('string'),
+      lastName: DS.attr('string'),
+      occupation: DS.attr('string')
+    });
+    ```
+
+    The JSON returned should look like this:
+
+    ```js
+    {
+      "famous_person": {
+        "id": 1,
+        "first_name": "Barack",
+        "last_name": "Obama",
+        "occupation": "President"
+      }
+    }
+    ```
+
+    Let's imagine that `Occupation` is just another model:
+
+    ```js
+    App.Person = DS.Model.extend({
+      firstName: DS.attr('string'),
+      lastName: DS.attr('string'),
+      occupation: DS.belongsTo('occupation')
+    });
+
+    App.Occupation = DS.Model.extend({
+      name: DS.attr('string'),
+      salary: DS.attr('number'),
+      people: DS.hasMany('person')
+    });
+    ```
+
+    The JSON needed to avoid extra server calls, should look like this:
+
+    ```js
+    {
+      "people": [{
+        "id": 1,
+        "first_name": "Barack",
+        "last_name": "Obama",
+        "occupation_id": 1
+      }],
+
+      "occupations": [{
+        "id": 1,
+        "name": "President",
+        "salary": 100000,
+        "person_ids": [1]
+      }]
+    }
+    ```
+
+    @class ActiveModelSerializer
+    @namespace DS
+    @extends DS.RESTSerializer
+  */
+  var normalizeModelName = DS['default'].normalizeModelName;
+  var ActiveModelSerializer = RESTSerializer.extend({
+    // SERIALIZE
+
+    /**
+      Converts camelCased attributes to underscored when serializing.
+       @method keyForAttribute
+      @param {String} attribute
+      @return String
+    */
+    keyForAttribute: function keyForAttribute(attr) {
+      return decamelize(attr);
+    },
+
+    /**
+      Underscores relationship names and appends "_id" or "_ids" when serializing
+      relationship keys.
+       @method keyForRelationship
+      @param {String} relationshipModelName
+      @param {String} kind
+      @return String
+    */
+    keyForRelationship: function keyForRelationship(relationshipModelName, kind) {
+      var key = decamelize(relationshipModelName);
+      if (kind === "belongsTo") {
+        return key + "_id";
+      } else if (kind === "hasMany") {
+        return singularize(key) + "_ids";
+      } else {
+        return key;
+      }
+    },
+
+    /**
+     `keyForLink` can be used to define a custom key when deserializing link
+     properties. The `ActiveModelSerializer` camelizes link keys by default.
+      @method keyForLink
+     @param {String} key
+     @param {String} kind `belongsTo` or `hasMany`
+     @return {String} normalized key
+    */
+    keyForLink: function keyForLink(key, relationshipKind) {
+      return camelize(key);
+    },
+
+    /*
+      Does not serialize hasMany relationships by default.
+    */
+    serializeHasMany: Ember['default'].K,
+
+    /**
+     Underscores the JSON root keys when serializing.
+       @method payloadKeyFromModelName
+      @param {String} modelName
+      @return {String}
+    */
+    payloadKeyFromModelName: function payloadKeyFromModelName(modelName) {
+      return underscore(decamelize(modelName));
+    },
+
+    /**
+      Serializes a polymorphic type as a fully capitalized model name.
+       @method serializePolymorphicType
+      @param {DS.Snapshot} snapshot
+      @param {Object} json
+      @param {Object} relationship
+    */
+    serializePolymorphicType: function serializePolymorphicType(snapshot, json, relationship) {
+      var key = relationship.key;
+      var belongsTo = snapshot.belongsTo(key);
+      var jsonKey = underscore(key + "_type");
+
+      if (Ember['default'].isNone(belongsTo)) {
+        json[jsonKey] = null;
+      } else {
+        json[jsonKey] = classify(belongsTo.modelName).replace('/', '::');
+      }
+    },
+
+    // EXTRACT
+
+    /**
+      Add extra step to `DS.RESTSerializer.normalize` so links are normalized.
+       If your payload looks like:
+       ```js
+      {
+        "post": {
+          "id": 1,
+          "title": "Rails is omakase",
+          "links": { "flagged_comments": "api/comments/flagged" }
+        }
+      }
+      ```
+       The normalized version would look like this
+       ```js
+      {
+        "post": {
+          "id": 1,
+          "title": "Rails is omakase",
+          "links": { "flaggedComments": "api/comments/flagged" }
+        }
+      }
+      ```
+       @method normalize
+      @param {subclass of DS.Model} typeClass
+      @param {Object} hash
+      @param {String} prop
+      @return Object
+    */
+    normalize: function normalize(typeClass, hash, prop) {
+      this.normalizeLinks(hash);
+      return this._super(typeClass, hash, prop);
+    },
+
+    /**
+      Convert `snake_cased` links  to `camelCase`
+       @method normalizeLinks
+      @param {Object} data
+    */
+
+    normalizeLinks: function normalizeLinks(data) {
+      if (data.links) {
+        var links = data.links;
+
+        for (var link in links) {
+          var camelizedLink = camelize(link);
+
+          if (camelizedLink !== link) {
+            links[camelizedLink] = links[link];
+            delete links[link];
+          }
+        }
+      }
+    },
+
+    /**
+      Normalize the polymorphic type from the JSON.
+       Normalize:
+      ```js
+        {
+          id: "1"
+          minion: { type: "evil_minion", id: "12"}
+        }
+      ```
+       To:
+      ```js
+        {
+          id: "1"
+          minion: { type: "evilMinion", id: "12"}
+        }
+      ```
+       @param {Subclass of DS.Model} typeClass
+      @method normalizeRelationships
+      @private
+    */
+    normalizeRelationships: function normalizeRelationships(typeClass, hash) {
+
+      if (this.keyForRelationship) {
+        typeClass.eachRelationship(function (key, relationship) {
+          var _this = this;
+
+          var payloadKey, payload;
+          if (relationship.options.polymorphic) {
+            payloadKey = this.keyForAttribute(key, "deserialize");
+            payload = hash[payloadKey];
+            if (payload && payload.type) {
+              payload.type = this.modelNameFromPayloadKey(payload.type);
+            } else if (payload && relationship.kind === "hasMany") {
+              payload.forEach(function (single) {
+                return single.type = _this.modelNameFromPayloadKey(single.type);
+              });
+            }
+          } else {
+            payloadKey = this.keyForRelationship(key, relationship.kind, "deserialize");
+            if (!hash.hasOwnProperty(payloadKey)) {
+              return;
+            }
+            payload = hash[payloadKey];
+          }
+
+          hash[key] = payload;
+
+          if (key !== payloadKey) {
+            delete hash[payloadKey];
+          }
+        }, this);
+      }
+    },
+
+    extractRelationships: function extractRelationships(modelClass, resourceHash) {
+      modelClass.eachRelationship(function (key, relationshipMeta) {
+        var relationshipKey = this.keyForRelationship(key, relationshipMeta.kind, "deserialize");
+
+        // prefer the format the AMS gem expects, e.g.:
+        // relationship: {id: id, type: type}
+        if (relationshipMeta.options.polymorphic) {
+          extractPolymorphicRelationships(key, relationshipMeta, resourceHash, relationshipKey);
+        }
+        // If the preferred format is not found, use {relationship_name_id, relationship_name_type}
+        if (resourceHash.hasOwnProperty(relationshipKey) && typeof resourceHash[relationshipKey] !== 'object') {
+          var polymorphicTypeKey = this.keyForRelationship(key) + '_type';
+          if (resourceHash[polymorphicTypeKey] && relationshipMeta.options.polymorphic) {
+            var id = resourceHash[relationshipKey];
+            var type = resourceHash[polymorphicTypeKey];
+            delete resourceHash[polymorphicTypeKey];
+            delete resourceHash[relationshipKey];
+            resourceHash[relationshipKey] = { id: id, type: type };
+          }
+        }
+      }, this);
+      return this._super.apply(this, arguments);
+    },
+
+    modelNameFromPayloadKey: function modelNameFromPayloadKey(key) {
+      var convertedFromRubyModule = singularize(key.replace('::', '/'));
+      return normalizeModelName(convertedFromRubyModule);
+    }
+  });
+
+  function extractPolymorphicRelationships(key, relationshipMeta, resourceHash, relationshipKey) {
+    var polymorphicKey = decamelize(key);
+    if (polymorphicKey in resourceHash && typeof resourceHash[polymorphicKey] === 'object') {
+      if (relationshipMeta.kind === 'belongsTo') {
+        var hash = resourceHash[polymorphicKey];
+        var id = hash.id;
+        var type = hash.type;
+
+        resourceHash[relationshipKey] = { id: id, type: type };
+        // otherwise hasMany
+      } else {
+          var hashes = resourceHash[polymorphicKey];
+
+          if (!hashes) {
+            return;
+          }
+
+          // TODO: replace this with map when ActiveModelAdapter branches for Ember Data 2.0
+          var array = [];
+          for (var i = 0, _length = hashes.length; i < _length; i++) {
+            var hash = hashes[i];
+            var id = hash.id;
+            var type = hash.type;
+
+            array.push({ id: id, type: type });
+          }
+          resourceHash[relationshipKey] = array;
+        }
+    }
+  }
+
+  exports['default'] = ActiveModelSerializer;
+
+});
+define('active-model-adapter/index', ['exports', 'active-model-adapter/active-model-adapter', 'active-model-adapter/active-model-serializer'], function (exports, ActiveModelAdapter, ActiveModelSerializer) {
+
+	'use strict';
+
+	exports['default'] = ActiveModelAdapter['default'];
+
+	exports.ActiveModelAdapter = ActiveModelAdapter['default'];
+	exports.ActiveModelSerializer = ActiveModelSerializer['default'];
+
+});
+define('ember-cli-content-security-policy', ['ember-cli-content-security-policy/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
   'use strict';
   var keys = Object.keys || __Ember__['default'].keys;
   var forEach = Array.prototype.forEach && function(array, cb) {
@@ -96600,6 +97267,115 @@ define('ember-moment/utils/is-descriptor', ['exports', 'ember'], function (expor
   }
 
   exports['default'] = isDescriptor;
+
+});
+define('ember-simwms-session', ['ember-simwms-session/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
+  'use strict';
+  var keys = Object.keys || __Ember__['default'].keys;
+  var forEach = Array.prototype.forEach && function(array, cb) {
+    array.forEach(cb);
+  } || __Ember__['default'].EnumerableUtils.forEach;
+
+  forEach(keys(__index__), (function(key) {
+    __exports__[key] = __index__[key];
+  }));
+});
+
+define('ember-simwms-session/index', ['exports', 'ember-simwms-session/singletons/user-session'], function (exports, UserSession) {
+
+	'use strict';
+
+	exports['default'] = UserSession['default'];
+
+	exports.UserSession = UserSession['default'];
+
+});
+define('ember-simwms-session/singletons/user-session', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  var Errors, UserSession, alias, ifAny, ifPresent, isBlank, notEmpty;
+
+  alias = Ember['default'].computed.alias;
+
+  ifPresent = Ember['default'].computed.and;
+
+  ifAny = Ember['default'].computed.or;
+
+  isBlank = Ember['default'].isBlank;
+
+  notEmpty = Ember['default'].computed.notEmpty;
+
+  Errors = Ember['default'].Object.extend({
+    hasErrors: ifAny("hasAccountErrors", "hasTokenErrors"),
+    hasAccountErrors: notEmpty("account"),
+    hasTokenErrors: notEmpty("token"),
+    clear: function clear() {
+      this.set("account", []);
+      return this.set("token", []);
+    },
+    addError: function addError(key, msg) {
+      return this.getWithDefault(key, []).pushObject(msg);
+    }
+  });
+
+  UserSession = Ember['default'].Object.extend({
+    isLoggedIn: ifPresent("account.id"),
+    namespace: alias("account.namespace"),
+    host: alias("account.host"),
+    hasErrors: alias("errors.hasErrors"),
+    errors: Errors.create(),
+    p: Ember['default'].computed(function () {
+      return new Ember['default'].RSVP.Promise((function (_this) {
+        return function (r) {
+          return r(_this);
+        };
+      })(this));
+    }),
+    checkForErrors: function checkForErrors() {
+      this.errors.clear();
+      if (isBlank(this.get("rememberToken"))) {
+        this.setError("token", "cannot be blank");
+      }
+      if (isBlank(this.get("accountId"))) {
+        this.setError("account", "cannot be blank");
+      }
+      return this.get("hasErrors");
+    },
+    configure: function configure(arg) {
+      var account, token;
+      token = arg.token, account = arg.account;
+      this.set("accountId", account != null ? account : Cookies.get("accountId"));
+      return this.set("rememberToken", token != null ? token : Cookies.get("rememberToken"));
+    },
+    setup: function setup(store) {
+      if (this.checkForErrors()) {
+        return this.get("p");
+      }
+      return store.find("account", this.get("accountId")).then((function (_this) {
+        return function (account) {
+          _this.set("account", account);
+          Cookies.set("accountId", account.get("id"));
+          Cookies.set("rememberToken", _this.get("rememberToken"));
+          return _this;
+        };
+      })(this))["catch"]((function (_this) {
+        return function (arg) {
+          var errors;
+          errors = arg.errors;
+          _this.setError("account", "does not match given token");
+          Cookies.remove("accountId");
+          Cookies.remove("rememberToken");
+          return _this;
+        };
+      })(this));
+    },
+    setError: function setError(key, msg) {
+      return this.errors.addError(key, msg);
+    }
+  });
+
+  exports['default'] = UserSession;
 
 });
 define('ember-truth-helpers', ['ember-truth-helpers/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {

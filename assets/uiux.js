@@ -2,29 +2,40 @@
 
 /* jshint ignore:end */
 
-define('uiux/adapters/account', ['exports', 'ember', 'uiux/adapters/application', 'uiux/config/environment'], function (exports, Ember, ApplicationAdapter, ENV) {
+define('uiux/adapters/account', ['exports', 'ember', 'ember-data', 'uiux/config/environment'], function (exports, Ember, DS, ENV) {
 
   'use strict';
 
-  var AccountAdapter;
+  var AccountAdapter, volatile;
 
-  AccountAdapter = ApplicationAdapter['default'].extend({
+  volatile = function () {
+    return Ember['default'].computed.apply(Ember['default'], arguments).volatile();
+  };
+
+  AccountAdapter = DS['default'].ActiveModelAdapter.extend({
+    host: ENV['default'].simwmsHost,
     namespace: ENV['default'].simwmsNamespace,
-    host: ENV['default'].simwmsHost
+    headers: volatile("currentUser.rememberToken", function () {
+      return {
+        "remember_token": this.get("currentUser.rememberToken")
+      };
+    })
   });
 
   exports['default'] = AccountAdapter;
 
 });
-define('uiux/adapters/application', ['exports', 'ember-data', 'uiux/config/environment'], function (exports, DS, ENV) {
+define('uiux/adapters/application', ['exports', 'ember-data', 'uiux/config/environment', 'active-model-adapter'], function (exports, DS, ENV, ActiveModelAdapter) {
 
   'use strict';
 
-  var ApplicationAdapter;
+  var ApplicationAdapter, alias;
 
-  ApplicationAdapter = DS['default'].ActiveModelAdapter.extend({
-    namespace: ENV['default'].namespace,
-    host: ENV['default'].host,
+  alias = Ember.computed.alias;
+
+  ApplicationAdapter = ActiveModelAdapter['default'].extend({
+    namespace: alias("currentUser.namespace"),
+    host: alias("currentUser.host"),
     shouldReloadAll: function shouldReloadAll() {
       return true;
     },
@@ -834,7 +845,7 @@ define('uiux/components/vector-tiles', ['exports', 'ember', 'ember-cpm'], functi
   exports['default'] = VectorTilesComponent;
 
 });
-define('uiux/components/video-proxy', ['exports', 'ember', 'uiux/utils/fun-ex'], function (exports, Ember, FunEx) {
+define('uiux/components/video-proxy', ['exports', 'ember'], function (exports, Ember) {
 
   'use strict';
 
@@ -850,7 +861,7 @@ define('uiux/components/video-proxy', ['exports', 'ember', 'uiux/utils/fun-ex'],
     didInsertElement: function didInsertElement() {
       return this.manageSource();
     },
-    src: FunEx['default'].computed("stream", function () {
+    src: Ember['default'].computed("stream", function () {
       if (Ember['default'].isBlank(this.get("stream"))) {
         return;
       }
@@ -859,7 +870,7 @@ define('uiux/components/video-proxy', ['exports', 'ember', 'uiux/utils/fun-ex'],
       }
       return window.URL.createObjectURL(this.get("stream"));
     }),
-    manageSource: FunEx['default'].observed("src", function () {
+    manageSource: Ember['default'].observer("src", function () {
       if (Ember['default'].isBlank(this.get("src"))) {
         return;
       }
@@ -871,15 +882,30 @@ define('uiux/components/video-proxy', ['exports', 'ember', 'uiux/utils/fun-ex'],
   exports['default'] = VideoProxyComponent;
 
 });
-define('uiux/controllers/application', ['exports', 'ember'], function (exports, Ember) {
+define('uiux/controllers/application', ['exports', 'ember', 'uiux/config/environment', 'uiux/mixins/atomic'], function (exports, Ember, ENV, AtomicMixin) {
 
-	'use strict';
+  'use strict';
 
-	var ApplicationController;
+  var ApplicationController;
 
-	ApplicationController = Ember['default'].Controller.extend();
+  ApplicationController = Ember['default'].Controller.extend(AtomicMixin['default'], {
+    queryParams: ["token", "account"],
+    token: null,
+    account: null,
+    simwmsBackPath: ENV['default'].simwmsHomePage,
+    simwmsHelpPath: ENV['default'].simwmsHelpPage,
+    actions: {
+      submit: function submit() {
+        return this.atomically((function (_this) {
+          return function () {
+            return _this.get("model").setup(_this.store);
+          };
+        })(this));
+      }
+    }
+  });
 
-	exports['default'] = ApplicationController;
+  exports['default'] = ApplicationController;
 
 });
 define('uiux/controllers/array', ['exports', 'ember'], function (exports, Ember) {
@@ -1077,19 +1103,6 @@ define('uiux/controllers/docks/truck/depart', ['exports', 'ember', 'uiux/mixins/
   });
 
   exports['default'] = DocksTruckDepartController;
-
-});
-define('uiux/controllers/index', ['exports', 'ember'], function (exports, Ember) {
-
-  'use strict';
-
-  var IndexController;
-
-  IndexController = Ember['default'].Controller.extend({
-    roles: ["manager", "scalemaster", "dockworker", "logistics"]
-  });
-
-  exports['default'] = IndexController;
 
 });
 define('uiux/controllers/inventories/index', ['exports', 'ember'], function (exports, Ember) {
@@ -2202,36 +2215,17 @@ define('uiux/helpers/read-path', ['exports', 'ember'], function (exports, Ember)
   });
 
 });
-define('uiux/initializers/account-setup', ['exports'], function (exports) {
+define('uiux/initializers/active-model-adapter', ['exports', 'active-model-adapter', 'active-model-adapter/active-model-serializer'], function (exports, ActiveModelAdapter, ActiveModelSerializer) {
 
   'use strict';
 
-  var AccountSetupInitializer, Session, initialize;
-
-  Session = Ember.ObjectProxy.extend({
-    setup: function setup(store) {
-      return store.find("account", 1).then((function (_this) {
-        return function (account) {
-          return _this.set("content", account);
-        };
-      })(this));
+  exports['default'] = {
+    name: 'active-model-adapter',
+    initialize: function initialize(registry, application) {
+      registry.register('adapter:-active-model', ActiveModelAdapter['default']);
+      registry.register('serializer:-active-model', ActiveModelSerializer['default'].extend({ isNewSerializerAPI: true }));
     }
-  });
-
-  initialize = function (registry, application) {
-    application.register("session:account", Session);
-    application.inject("controller", "currentAccount", "session:account");
-    return application.inject("route", "currentAccount", "session:account");
   };
-
-  AccountSetupInitializer = {
-    name: "account-setup",
-    initialize: initialize
-  };
-
-  exports['default'] = AccountSetupInitializer;
-
-  exports.initialize = initialize;
 
 });
 define('uiux/initializers/controller-pen', ['exports', 'uiux/utils/controller-pen'], function (exports, ControllerPen) {
@@ -2395,27 +2389,61 @@ define('uiux/initializers/truth-helpers', ['exports', 'ember-truth-helpers/utils
   };
 
 });
-define('uiux/instance-initializers/account-setup', ['exports'], function (exports) {
+define('uiux/initializers/user-session', ['exports', 'ember-simwms-session'], function (exports, UserSession) {
 
   'use strict';
 
-  var AccountSetupInitializer, initialize;
+  var UserSessionInitializer, initialize;
 
-  initialize = function (instance) {
-    var account, store;
-    account = instance.container.lookup("session:account");
-    store = instance.container.lookup("service:store");
-    return account.setup(store);
+  initialize = function (registry, application) {
+    application.register("session:user", UserSession['default']);
+    application.inject("controller", "currentUser", "session:user");
+    application.inject("route", "currentUser", "session:user");
+    return application.inject("adapter", "currentUser", "session:user");
   };
 
-  AccountSetupInitializer = {
-    name: "account-setup",
+  UserSessionInitializer = {
+    name: 'user-session',
     initialize: initialize
   };
 
-  exports['default'] = AccountSetupInitializer;
+  exports['default'] = UserSessionInitializer;
 
   exports.initialize = initialize;
+
+});
+define('uiux/instance-initializers/active-model-adapter', ['exports', 'active-model-adapter', 'active-model-adapter/active-model-serializer'], function (exports, ActiveModelAdapter, ActiveModelSerializer) {
+
+  'use strict';
+
+  exports['default'] = {
+    name: 'active-model-adapter',
+    initialize: function initialize(applicationOrRegistry) {
+      var registry, container;
+      if (applicationOrRegistry.registry && applicationOrRegistry.container) {
+        // initializeStoreService was registered with an
+        // instanceInitializer. The first argument is the application
+        // instance.
+        registry = applicationOrRegistry.registry;
+        container = applicationOrRegistry.container;
+      } else {
+        // initializeStoreService was called by an initializer instead of
+        // an instanceInitializer. The first argument is a registy. This
+        // case allows ED to support Ember pre 1.12
+        registry = applicationOrRegistry;
+        if (registry.container) {
+          // Support Ember 1.10 - 1.11
+          container = registry.container();
+        } else {
+          // Support Ember 1.9
+          container = registry;
+        }
+      }
+
+      registry.register('adapter:-active-model', ActiveModelAdapter['default']);
+      registry.register('serializer:-active-model', ActiveModelSerializer['default']);
+    }
+  };
 
 });
 define('uiux/instance-initializers/app-version', ['exports', 'uiux/config/environment', 'ember'], function (exports, config, Ember) {
@@ -2487,10 +2515,21 @@ define('uiux/models/account', ['exports', 'ember-data'], function (exports, DS) 
   var Account;
 
   Account = DS['default'].Model.extend({
+    companyName: DS['default'].attr("string"),
     accessKeyId: DS['default'].attr("string"),
     secretAccessKey: DS['default'].attr("string"),
-    region: DS['default'].attr("string"),
-    namespace: DS['default'].attr("string")
+    timezone: DS['default'].attr("string"),
+    namespace: DS['default'].attr("string"),
+    host: DS['default'].attr("string"),
+    uiuxHost: DS['default'].attr("string"),
+    configHost: DS['default'].attr("string"),
+    servicePlan: DS['default'].attr("string", {
+      defaultValue: "free-trial"
+    }),
+    user: DS['default'].belongsTo("user", {
+      async: true
+    }),
+    insertedAt: DS['default'].attr("date")
   });
 
   exports['default'] = Account;
@@ -2886,6 +2925,24 @@ define('uiux/models/truck', ['exports', 'ember', 'ember-data'], function (export
   exports['default'] = Truck;
 
 });
+define('uiux/models/user', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  var User;
+
+  User = DS['default'].Model.extend({
+    email: DS['default'].attr("string"),
+    password: DS['default'].attr("string"),
+    username: DS['default'].attr("string"),
+    accounts: DS['default'].hasMany("account", {
+      async: true
+    })
+  });
+
+  exports['default'] = User;
+
+});
 define('uiux/models/weighticket', ['exports', 'ember', 'ember-cpm', 'ember-data'], function (exports, Ember, EmberCPM, DS) {
 
   'use strict';
@@ -3107,11 +3164,20 @@ define('uiux/routes/application', ['exports', 'ember'], function (exports, Ember
   var ApplicationRoute;
 
   ApplicationRoute = Ember['default'].Route.extend({
+    queryParams: {
+      token: {
+        refreshModel: true
+      },
+      account: {
+        refreshModel: true
+      }
+    },
+    model: function model(params) {
+      this.currentUser.configure(params);
+      return this.currentUser.setup(this.store);
+    },
     isBusy: Ember['default'].computed.alias("controllerPen.isBusy"),
     isPending: Ember['default'].computed.alias("isBusy"),
-    model: function model() {
-      return this.store.findAll("tile");
-    },
     actions: {
       controllerWorking: function controllerWorking(controller) {
         return this.controllerPen.makeBusy(controller);
@@ -3157,7 +3223,7 @@ define('uiux/routes/docks', ['exports', 'ember'], function (exports, Ember) {
 
   DocksRoute = Ember['default'].Route.extend({
     model: function model() {
-      return this.modelFor("application").filterBy("tileType", "barn");
+      return this.store.findAll("tile").filterBy("tileType", "barn");
     }
   });
 
@@ -3255,17 +3321,17 @@ define('uiux/routes/docks/truck', ['exports', 'ember', 'uiux/collections/station
 
   DocksTruckRoute = Ember['default'].Route.extend({
     model: function model(arg) {
-      var id, tiles;
+      var id;
       id = arg.truckId;
-      tiles = this.modelFor("application");
       return Ember['default'].RSVP.hash({
+        tiles: this.store.findAll("tile"),
         batches: this.store.find("batch", {
           truck: id
         }),
         truck: this.store.find("truck", id)
       }).then(function (arg1) {
-        var batches, stations, truck;
-        truck = arg1.truck, batches = arg1.batches;
+        var batches, stations, tiles, truck;
+        truck = arg1.truck, batches = arg1.batches, tiles = arg1.tiles;
         stations = StationsCollection['default'].fromTiles(tiles);
         truck.set("stations", stations);
         truck.set("exitScale", calculateExitScalePreference(stations));
@@ -3303,19 +3369,25 @@ define('uiux/routes/docks/truck/batches/new', ['exports', 'ember', 'uiux/collect
       }
     },
     setupBatch: function setupBatch(tile) {
-      var tiles, truck, warehouses;
-      tiles = this.modelFor("application");
-      warehouses = Warehouses['default'].fromTiles(tiles);
+      var truck;
       truck = this.modelFor("docks.truck");
-      return this.store.createRecord("batch", {
-        appointment: truck.get("appointment"),
-        permalink: truck.get("appointment.permalink"),
-        dock: truck.get("dock"),
-        warehouse: tile || warehouses.get("firstEmptyWarehouse"),
-        arrivedAt: moment(),
-        truck: truck,
-        warehouses: warehouses
-      });
+      return this.store.findAll("tile").then((function (_this) {
+        return function (tiles) {
+          return Warehouses['default'].fromTiles(tiles);
+        };
+      })(this)).then((function (_this) {
+        return function (warehouses) {
+          return _this.store.createRecord("batch", {
+            appointment: truck.get("appointment"),
+            permalink: truck.get("appointment.permalink"),
+            dock: truck.get("dock"),
+            warehouse: tile || warehouses.get("firstEmptyWarehouse"),
+            arrivedAt: moment(),
+            truck: truck,
+            warehouses: warehouses
+          });
+        };
+      })(this));
     },
     tearDown: Ember['default'].on("deactivate", function () {
       var model;
@@ -3327,19 +3399,6 @@ define('uiux/routes/docks/truck/batches/new', ['exports', 'ember', 'uiux/collect
   });
 
   exports['default'] = DocksTruckBatchesNewRoute;
-
-});
-define('uiux/routes/index', ['exports', 'ember'], function (exports, Ember) {
-
-  'use strict';
-
-  var IndexRoute;
-
-  IndexRoute = Ember['default'].Route.extend({
-    model: function model() {}
-  });
-
-  exports['default'] = IndexRoute;
 
 });
 define('uiux/routes/logistics', ['exports', 'ember'], function (exports, Ember) {
@@ -3672,17 +3731,17 @@ define('uiux/routes/manager', ['exports', 'ember', 'uiux/collections/appointment
 
   ManagerRoute = Ember['default'].Route.extend({
     model: function model() {
-      var batches, tiles;
-      tiles = this.modelFor("application");
+      var batches;
       batches = this.store.peekAll("batch");
       return Ember['default'].RSVP.hash({
+        tiles: this.store.findAll("tile"),
         appointments: this.store.query("appointment", collections__appointments.processMacro({
           macro: "today"
         })),
         trucks: this.store.findAll("truck").filterBy("departedAt", null)
       }).then(function (arg) {
-        var appointments, trucks;
-        trucks = arg.trucks, appointments = arg.appointments;
+        var appointments, tiles, trucks;
+        trucks = arg.trucks, appointments = arg.appointments, tiles = arg.tiles;
         return {
           trucks: trucks,
           batches: batches,
@@ -3766,11 +3825,13 @@ define('uiux/routes/manager/employees/new', ['exports', 'ember', 'uiux/collectio
 
   ManagerEmployeesNewRoute = Ember['default'].Route.extend({
     model: function model() {
-      var tiles;
-      tiles = Tiles['default'].fromTiles(this.modelFor("application"));
-      return this.store.createRecord("employee", {
-        tiles: tiles
-      });
+      return this.store.findAll("tile").then(Tiles['default'].fromTiles).then((function (_this) {
+        return function (tiles) {
+          return _this.store.createRecord("employee", {
+            tiles: tiles
+          });
+        };
+      })(this));
     },
     tearDown: Ember['default'].on("deactivate", function () {
       var model;
@@ -4023,7 +4084,7 @@ define('uiux/routes/stations', ['exports', 'ember'], function (exports, Ember) {
 
   StationsRoute = Ember['default'].Route.extend({
     model: function model() {
-      return this.modelFor("application").filterBy("tileType", "scale");
+      return this.store.findAll("tile").filterBy("tileType", "scale");
     }
   });
 
@@ -4078,10 +4139,13 @@ define('uiux/routes/stations/station/weightickets/new', ['exports', 'ember', 'ui
       appointment: true
     },
     model: function model(arg) {
-      var appointment, tiles;
+      var appointment;
       appointment = arg.appointment;
-      tiles = this.modelFor("application");
-      return this.setupWeighticket(appointment, Docks['default'].fromTiles(tiles));
+      return this.store.findAll("tile").then(Docks['default'].fromTiles).then((function (_this) {
+        return function (docks) {
+          return _this.setupWeighticket(appointment, docks);
+        };
+      })(this));
     },
     setupWeighticket: function setupWeighticket(apptId, docks) {
       return this.store.find("appointment", apptId).then((function (_this) {
@@ -4179,11 +4243,12 @@ define('uiux/routes/stations/weighticket/edit', ['exports', 'ember', 'uiux/colle
 
   StationsWeighticketEditRoute = Ember['default'].Route.extend({
     model: function model() {
-      var tiles, weighticket;
-      tiles = this.modelFor("application");
+      var weighticket;
       weighticket = this.modelFor("stations.weighticket");
-      weighticket.set("docks", Docks['default'].fromTiles(tiles));
-      return weighticket;
+      return this.store.findAll("tile").then(Dock.fromTiles).then(function (docks) {
+        weighticket.set("docks", docks);
+        return weighticket;
+      });
     }
   });
 
@@ -11311,6 +11376,86 @@ define('uiux/templates/index', ['exports'], function (exports) {
   'use strict';
 
   exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 245
+            },
+            "end": {
+              "line": 1,
+              "column": 305
+            }
+          },
+          "moduleName": "uiux/templates/index.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createUnsafeMorphAt(fragment,0,0,contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [
+          ["inline","partial",["sessions/chose"],[],["loc",[null,[1,275],[1,305]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 305
+            },
+            "end": {
+              "line": 1,
+              "column": 343
+            }
+          },
+          "moduleName": "uiux/templates/index.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createUnsafeMorphAt(fragment,0,0,contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [
+          ["inline","partial",["sessions/login"],[],["loc",[null,[1,313],[1,343]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
     return {
       meta: {
         "revision": "Ember@1.13.5",
@@ -11322,7 +11467,7 @@ define('uiux/templates/index', ['exports'], function (exports) {
           },
           "end": {
             "line": 1,
-            "column": 311
+            "column": 386
           }
         },
         "moduleName": "uiux/templates/index.hbs"
@@ -11357,14 +11502,14 @@ define('uiux/templates/index', ['exports'], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var morphs = new Array(1);
-        morphs[0] = dom.createUnsafeMorphAt(dom.childAt(fragment, [0, 0, 0, 0, 0, 0]),0,0);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 0, 0, 0, 0, 0]),0,0);
         return morphs;
       },
       statements: [
-        ["inline","partial",["sessions/login"],[],["loc",[null,[1,245],[1,275]]]]
+        ["block","if",[["get","currentUser.isLoggedIn",["loc",[null,[1,251],[1,273]]]]],[],0,1,["loc",[null,[1,245],[1,350]]]]
       ],
       locals: [],
-      templates: []
+      templates: [child0, child1]
     };
   }()));
 
@@ -27155,7 +27300,7 @@ define('uiux/templates/modals/weight-station', ['exports'], function (exports) {
   }()));
 
 });
-define('uiux/templates/sessions/_login', ['exports'], function (exports) {
+define('uiux/templates/sessions/_chose', ['exports'], function (exports) {
 
   'use strict';
 
@@ -27168,14 +27313,14 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
             "source": null,
             "start": {
               "line": 1,
-              "column": 82
+              "column": 88
             },
             "end": {
               "line": 1,
-              "column": 201
+              "column": 207
             }
           },
-          "moduleName": "uiux/templates/sessions/_login.hbs"
+          "moduleName": "uiux/templates/sessions/_chose.hbs"
         },
         arity: 0,
         cachedFragment: null,
@@ -27208,14 +27353,14 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
             "source": null,
             "start": {
               "line": 1,
-              "column": 213
+              "column": 219
             },
             "end": {
               "line": 1,
-              "column": 321
+              "column": 327
             }
           },
-          "moduleName": "uiux/templates/sessions/_login.hbs"
+          "moduleName": "uiux/templates/sessions/_chose.hbs"
         },
         arity: 0,
         cachedFragment: null,
@@ -27248,14 +27393,14 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
             "source": null,
             "start": {
               "line": 1,
-              "column": 333
+              "column": 339
             },
             "end": {
               "line": 1,
-              "column": 445
+              "column": 451
             }
           },
-          "moduleName": "uiux/templates/sessions/_login.hbs"
+          "moduleName": "uiux/templates/sessions/_chose.hbs"
         },
         arity: 0,
         cachedFragment: null,
@@ -27288,14 +27433,14 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
             "source": null,
             "start": {
               "line": 1,
-              "column": 457
+              "column": 463
             },
             "end": {
               "line": 1,
-              "column": 566
+              "column": 572
             }
           },
-          "moduleName": "uiux/templates/sessions/_login.hbs"
+          "moduleName": "uiux/templates/sessions/_chose.hbs"
         },
         arity: 0,
         cachedFragment: null,
@@ -27331,10 +27476,10 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
           },
           "end": {
             "line": 1,
-            "column": 584
+            "column": 590
           }
         },
-        "moduleName": "uiux/templates/sessions/_login.hbs"
+        "moduleName": "uiux/templates/sessions/_chose.hbs"
       },
       arity: 0,
       cachedFragment: null,
@@ -27345,7 +27490,7 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
         dom.setAttribute(el1,"class","modal-title");
         var el2 = dom.createElement("span");
         dom.setAttribute(el2,"class","fa");
-        var el3 = dom.createTextNode("Login");
+        var el3 = dom.createTextNode("Choose Role");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -27372,13 +27517,200 @@ define('uiux/templates/sessions/_login', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","link-to",["manager"],["class","list-group-item"],0,null,["loc",[null,[1,82],[1,213]]]],
-        ["block","link-to",["docks"],["class","list-group-item"],1,null,["loc",[null,[1,213],[1,333]]]],
-        ["block","link-to",["stations"],["class","list-group-item"],2,null,["loc",[null,[1,333],[1,457]]]],
-        ["block","link-to",["logistics"],["class","list-group-item"],3,null,["loc",[null,[1,457],[1,578]]]]
+        ["block","link-to",["manager"],["class","list-group-item"],0,null,["loc",[null,[1,88],[1,219]]]],
+        ["block","link-to",["docks"],["class","list-group-item"],1,null,["loc",[null,[1,219],[1,339]]]],
+        ["block","link-to",["stations"],["class","list-group-item"],2,null,["loc",[null,[1,339],[1,463]]]],
+        ["block","link-to",["logistics"],["class","list-group-item"],3,null,["loc",[null,[1,463],[1,584]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3]
+    };
+  }()));
+
+});
+define('uiux/templates/sessions/_login', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 1,
+                "column": 295
+              },
+              "end": {
+                "line": 1,
+                "column": 339
+              }
+            },
+            "moduleName": "uiux/templates/sessions/_login.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createUnsafeMorphAt(fragment,0,0,contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [
+            ["inline","partial",["sessions/setup"],[],["loc",[null,[1,309],[1,339]]]]
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
+      var child1 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.5",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 1,
+                "column": 339
+              },
+              "end": {
+                "line": 1,
+                "column": 466
+              }
+            },
+            "moduleName": "uiux/templates/sessions/_login.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1,"type","submit");
+            dom.setAttribute(el1,"class","btn btn-primary btn-lg");
+            var el2 = dom.createElement("i");
+            dom.setAttribute(el2,"class","fa fa-check");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("span");
+            dom.setAttribute(el2,"class","fa");
+            var el3 = dom.createTextNode("Submit");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() { return []; },
+          statements: [
+
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.5",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 76
+            },
+            "end": {
+              "line": 1,
+              "column": 479
+            }
+          },
+          "moduleName": "uiux/templates/sessions/_login.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1,"class","actions");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          morphs[1] = dom.createMorphAt(fragment,1,1,contextualElement);
+          morphs[2] = dom.createMorphAt(dom.childAt(fragment, [2]),0,0);
+          dom.insertBoundary(fragment, 0);
+          return morphs;
+        },
+        statements: [
+          ["inline","em-form-input",[],["type","text","name","accountId","label","Account Id"],["loc",[null,[1,138],[1,203]]]],
+          ["inline","em-form-input",[],["type","text","name","rememberToken","label","Memory Token"],["loc",[null,[1,203],[1,274]]]],
+          ["block","if",[["get","isBusy",["loc",[null,[1,301],[1,307]]]]],[],0,1,["loc",[null,[1,295],[1,473]]]]
+        ],
+        locals: [],
+        templates: [child0, child1]
+      };
+    }());
+    return {
+      meta: {
+        "revision": "Ember@1.13.5",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 495
+          }
+        },
+        "moduleName": "uiux/templates/sessions/_login.hbs"
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h2");
+        dom.setAttribute(el1,"class","modal-title");
+        var el2 = dom.createElement("span");
+        dom.setAttribute(el2,"class","fa");
+        var el3 = dom.createTextNode("Authentication Required");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","em-form-for",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,97],[1,102]]]]],[],[]],"mistakes",["subexpr","@mut",[["get","mistakes",["loc",[null,[1,112],[1,120]]]]],[],[]],"action","submit"],0,null,["loc",[null,[1,76],[1,495]]]]
+      ],
+      locals: [],
+      templates: [child0]
     };
   }()));
 
@@ -32160,7 +32492,7 @@ catch(err) {
 if (runningTests) {
   require("uiux/tests/test-helper");
 } else {
-  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+87d06c4d"});
+  require("uiux/app")["default"].create({"name":"uiux","version":"0.0.0+1aebfc4e"});
 }
 
 /* jshint ignore:end */
