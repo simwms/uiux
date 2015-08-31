@@ -2,11 +2,14 @@
 `import ENV from 'uiux/config/environment'`
 `import ActiveModelAdapter from 'active-model-adapter'`
 
-alias = Ember.computed.alias
+volatile = ->
+  Ember.computed(arguments...).volatile()
 
-ApplicationAdapter = ActiveModelAdapter.extend # PhoenixChan,
-  namespace: alias "currentUser.namespace"
-  host: alias "currentUser.host"
+ApplicationAdapter = DS.ActiveModelAdapter.extend # PhoenixChan,
+  namespace: ENV.namespace
+  host: ENV.host
+  headers: volatile "currentUser.simwmsAccountSession", ->
+    "simwms-account-session": @get("currentUser.simwmsAccountSession")
 
   shouldReloadAll: -> true
   shouldBackgroundReloadRecord: -> true

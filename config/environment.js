@@ -5,9 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'uiux',
     environment: environment,
     printNamespace: "/print",
-    simwmsNamespace: "api",
-    simwmsHost: "http://localhost:3999",
-    namespace: "apiv2",
+    namespace: "apiv3",
     baseURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: { 
@@ -53,16 +51,17 @@ module.exports = function(environment) {
   }
 
   if (environment === 'staging') {
-    ENV.printHost = "https://safe-forest-2497.herokuapp.com";
-    ENV.host = "https://safe-forest-2497.herokuapp.com";
-    ENV.simwmsHost = "https://lit-atoll-7843.herokuapp.com";
+    ENV.printHost = "https://evening-springs-7575.herokuapp.com";
+    ENV.host = "https://evening-springs-7575.herokuapp.com";
     ENV.locationType = 'hash';
     ENV.baseURL = '/uiux';
   }
 
   if (environment === 'production') {
-    ENV.simwmsHost = "http://api.simwms.com";
+    ENV.printHost = "https://evening-springs-7575.herokuapp.com";
+    ENV.host = "https://evening-springs-7575.herokuapp.com";
     ENV.locationType = 'hash';
+    ENV.baseURL = "/uiux"
   }
 
   return ENV;
