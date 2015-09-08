@@ -54,14 +54,12 @@ module.exports = function(environment) {
     ENV.printHost = "https://evening-springs-7575.herokuapp.com";
     ENV.host = "https://evening-springs-7575.herokuapp.com";
     ENV.locationType = 'hash';
-    ENV.baseURL = '/uiux';
   }
 
   if (environment === 'production') {
     ENV.printHost = "https://evening-springs-7575.herokuapp.com";
     ENV.host = "https://evening-springs-7575.herokuapp.com";
     ENV.locationType = 'hash';
-    ENV.baseURL = "/uiux"
   }
 
   return ENV;
