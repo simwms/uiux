@@ -6,6 +6,10 @@ module.exports = function(environment) {
     environment: environment,
     printNamespace: "/print",
     namespace: "apiv3",
+    roxieNamespace: "master",
+    roxieHost: "https://pacific-ravine-5812.herokuapp.com",
+    s3Bucket: "simwms",
+    s3StorageClass: "REDUCED_REDUNDANCY",
     baseURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: { 

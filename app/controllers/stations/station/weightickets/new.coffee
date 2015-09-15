@@ -30,7 +30,7 @@ StationsStationWeighticketsNewController = Ember.Controller.extend AtomicMixin,
         .then (weighticket) =>
           PicturesCollection
           .fromWeighticket weighticket
-          .save(@store)
+          .save(@s3post, @store)
           .then =>
             @transitionToRoute "stations.weighticket.print", weighticket.get("id")
 `export default StationsStationWeighticketsNewController`

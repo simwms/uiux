@@ -49,6 +49,7 @@
     "ember-functional-validation": "0.0.5",
     "ember-moment": "3.0.0",
     "simwms-shared": "git://github.com/simwms/simwms-shared",
+    "ember-roxie": "git://github.com/simwms/ember-roxie",
     "ember-truth-helpers": "1.0.0",
     "express": "^4.13.1",
     "glob": "^5.0.14",

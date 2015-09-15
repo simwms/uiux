@@ -1,27 +1,26 @@
 `import Ember from 'ember'`
-`import {makeBucket} from 'uiux/utils/s3'`
 
 TempObject = Ember.Object.extend
-  save: (store) ->
-    makeBucket().upload @
-    .then ({Location, ETag, key}) =>
+  save: (s3post, store) ->
+    s3post.persist @get "datauri"
+    .then (s3ticket) =>
       store.createRecord "picture",
         assocId: @get("parentId")
         assocType: @get("parentType")
-        location: Location
-        etag: ETag
-        key: key
+        location: s3ticket.get("showUrl")
+        key: s3ticket.get("key")
       .save()
 
 PicturesCollection = Ember.ArrayProxy.extend
   files: Ember.computed.alias "content"
-  tmpPictures: Ember.computed.map "files", (file) -> 
+  datauris: Ember.computed.alias "content"
+  tmpPictures: Ember.computed.map "datauris", (datauri) -> 
     TempObject.create 
       parentType: @get("parentType")
       parentId: @get("parent.id")
-      file: file
-  save: (store) ->
-    Ember.RSVP.all @get("tmpPictures").map (pic) -> pic.save store
+      datauri: datauri
+  save: (s3post, store) ->
+    Ember.RSVP.all @get("tmpPictures").map (pic) -> pic.save s3post, store
 
 PicturesCollection.fromWeighticket = (weighticket) ->
   PicturesCollection.create

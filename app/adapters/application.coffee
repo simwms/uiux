@@ -1,7 +1,7 @@
 `import DS from 'ember-data'`
 `import ENV from 'uiux/config/environment'`
 `import ActiveModelAdapter from 'active-model-adapter'`
-
+`import Ember from 'ember'`
 volatile = ->
   Ember.computed(arguments...).volatile()
 
