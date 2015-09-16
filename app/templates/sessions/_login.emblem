@@ -9,6 +9,6 @@ em-form-for model=model mistakes=mistakes action="submit"
     if isBusy
       == partial "sessions/setup"
     else
-      button.btn.btn-primary.btn-lg type="submit"
+      link-to "index" (query-params token=model.rememberToken) classNames="btn btn-primary btn-lg"
         i.fa.fa-check
         span.fa Submit
