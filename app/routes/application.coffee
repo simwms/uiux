@@ -1,34 +1,30 @@
 `import Ember from 'ember'`
 
-ApplicationRoute = Ember.Route.extend
+{RSVP, computed, Route, get, $} = Ember
+{alias} = computed
+
+ApplicationRoute = Route.extend
   queryParams:
-    token:
+    userToken:
       refreshModel: true
-    account:
+    accountToken:
       refreshModel: true
 
   model: (params) ->
-    @currentUser.configure(params)
-    @currentUser.setup(@store)
-
-  isBusy: Ember.computed.alias "controllerPen.isBusy"
-  isPending: Ember.computed.alias "isBusy"
-
-  actions:
-    controllerWorking: (controller) ->
-      @controllerPen.makeBusy controller
-
-    controllerFinished: (controller) ->
-      @controllerPen.makeFree controller
-
-    openModal: (modalName, model) ->
-      if model?
-        id = Ember.get(model, "id")
-        id ||= model
-        @transitionTo modalName, id
+    {accountToken} = params
+    @currentUser.smartLogin(params)
+    .then =>
+      if @currentUser.get("accountLoggedIn")
+        RSVP.hash 
+          lines: @store.find "line"
+          tiles: @store.find "tile"
+          points: RSVP.resolve []
       else
-        @transitionTo modalName
-    closeModal: ->
-      @transitionTo "manager"
+        Object.create $.extend({}, {accountToken}, errors: @currentUser.get("errors"))
+        
+  actions:
+    refresh: ->
+      @refresh()
 
 `export default ApplicationRoute`
+

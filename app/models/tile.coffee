@@ -4,20 +4,14 @@
 `import D from '../utils/debug-ex'`
 `import BatchesCollection from '../collections/batches'`
 `import TrucksCollection from '../collections/trucks'`
+`import {TileCore} from 'simwms-shared'`
 Macros = CPM.Macros
 
 Alphabet = "abcdefghijklmnopqrstuvwxyz"
 AlphabetGr = "αβγδεζηθικλμνξοπρστυφχψω"
 AlphabetExt = Alphabet + AlphabetGr
 
-Tile = DS.Model.extend
-  tileType: DS.attr "string"
-  tileName: DS.attr "string"
-  x: DS.attr "number"
-  y: DS.attr "number"
-  z: DS.attr "number"
-  width: DS.attr "number", defaultValue: 1
-  height: DS.attr "number", defaultValue: 1
+Tile = DS.Model.extend TileCore,
   createdAt: DS.attr "date"
   updatedAt: DS.attr "date"
   cameras: DS.hasMany "camera", async: false

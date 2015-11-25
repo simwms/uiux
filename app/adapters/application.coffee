@@ -1,17 +1,10 @@
-`import DS from 'ember-data'`
 `import ENV from 'uiux/config/environment'`
 `import ActiveModelAdapter from 'active-model-adapter'`
 `import Ember from 'ember'`
-volatile = ->
-  Ember.computed(arguments...).volatile()
+`import {SimwmsHeaders} from 'simwms-shared'`
 
-ApplicationAdapter = DS.ActiveModelAdapter.extend # PhoenixChan,
-  namespace: ENV.namespace
+ApplicationAdapter = ActiveModelAdapter.extend SimwmsHeaders,
+  namespace: ENV.apiaNamespace
   host: ENV.host
-  headers: volatile "currentUser.simwmsAccountSession", ->
-    "simwms-account-session": @get("currentUser.simwmsAccountSession")
-
-  shouldReloadAll: -> true
-  shouldBackgroundReloadRecord: -> true
 
 `export default ApplicationAdapter`

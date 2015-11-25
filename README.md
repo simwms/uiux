@@ -3,6 +3,49 @@
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
+## Features
+
+## Workflows
+
++ Admin
+  + Redraw site map
+  + Assign cameras
+  + Hire / Fire employees
+  + Assign label printers / readers to docks
+  + Assign locator poles / racks to inventory spots
++ Logistics
+  + make drop-off appointments
+  + make pick-up appointments
+  - query appointment
+  - make booking
+- Idleworker
+  + Site overview
++ Manager
+  + site overview
+  + query inventory
+  + query appointment in-and-out summary
+  - On-site truck live report
+  - query employee activity report
+  - view site cameras
+  - assign employees to roles
+  - resolve filed problems
++ Scalemaster
+  + Truck/road overview
+  + Create weightickets
+  + Begin appointment fulfillment process
+  + Direct trucks to dock
+  + Track truck i/o
++ Dock worker
+  + Tag incoming / outgoing batches
+  + Load / unload batches to/from inventory
+  + Track truck docking / undocking
+  - Generate batch load reports (w/pictures and possibly video)
+- Inventory
+  - Inventory overview
+  - Move batches around
+  - Maintain inventory
+  - Generate inventory pictures
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.

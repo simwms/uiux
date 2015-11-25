@@ -3,9 +3,8 @@
 @import "animation/core";
 @import "common";
 
-@function images-url($path) {
-  @return url("images/" + $path);
-}
-
 @import "components";
 @import "templates";
+@import "simwms-assets/common";
+@import "simwms-assets/functions";
+@import "simwms-assets/map-grid";

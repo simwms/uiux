@@ -1,14 +1,15 @@
 h2.modal-title
   span.fa Authentication Required
 
-em-form-for model=model mistakes=mistakes action="submit"
-  em-form-input type="text" name="accountId" label="Account Id"
-  em-form-input type="text" name="rememberToken" label="Memory Token"
-
+em-form-for model errors=currentUser.errors action="submit" as |f|
+  if currentUser.isLoggedIn
+    input disabled=true value=currentUser.username class="form-control"
+  else
+    em-email-field f label="Employee Email"
+    em-password-field f
+  em-text-field f name="accountToken" label="Account Permalink"
   .actions
-    if isBusy
-      == partial "sessions/setup"
-    else
-      link-to "index" (query-params token=model.rememberToken) classNames="btn btn-primary btn-lg"
-        i.fa.fa-check
-        span.fa Submit
+    button type="submit" class="btn btn-lg btn-primary"
+      fa-icon "check"
+      span.fa Submit
+    

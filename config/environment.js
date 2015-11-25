@@ -11,6 +11,12 @@ module.exports = function(environment) {
     s3Bucket: "simwms",
     s3StorageClass: "REDUCED_REDUNDANCY",
     baseURL: '/',
+    host: "http://localhost:4000",
+    apiNamespace: "api",
+    apixNamespace: "apix",
+    apizNamespace: "apiz",
+    apiaNamespace: "apia",
+    socketNamespace: "ws://localhost:4000/socket",
     locationType: 'auto',
     contentSecurityPolicy: { 
       'connect-src': "'self' *",
@@ -64,6 +70,10 @@ module.exports = function(environment) {
     ENV.printHost = "https://evening-springs-7575.herokuapp.com";
     ENV.host = "https://evening-springs-7575.herokuapp.com";
     ENV.locationType = 'hash';
+  }
+
+  if (environment === 'sample') {
+    ENV.sampleApp = true;
   }
 
   return ENV;

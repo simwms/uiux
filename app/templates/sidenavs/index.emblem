@@ -1,0 +1,7 @@
+.panel.panel-default
+  .panel-heading Welcome, #{currentUser.username}
+  .panel-body You can manage your account preference from this tab
+  .list-group
+    .list-group-item.pointer click="logout"
+      fa-icon "sign-out"
+      span.fa &nbsp;Logout

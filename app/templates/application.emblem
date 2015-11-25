@@ -1,1 +1,54 @@
-== outlet
+#application
+  nav.navbar.navbar-inverse
+    .container-fluid
+      .navbar-header
+        button.navbar-toggle.collaposed data-toggle="collapse" data-target="#nav-roles"
+          span.sr-only Toggle Navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        link-to "index" class="navbar-brand"
+          span.fa SimWMS
+      
+      #nav-roles.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          if currentUser.accountLoggedIn
+            link-to "manager" tagName="li"
+              link-to "manager"
+                span.fa Manager
+            link-to "logistics" tagName="li"
+              link-to "logistics"
+                span.fa Logistics
+            link-to "stations" tagName="li"
+              link-to "stations"
+                span.fa Weight Stations
+            link-to "docks" tagName="li"
+              link-to "docks"
+                span.fa Loading Docks
+            link-to "index" tagName="li"
+              link-to "index"
+                span.fa My Account
+          else
+            link-to "index" tagName="li"
+              link-to "index"
+                span.fa Login
+
+  == outlet
+  main#main.row
+    if currentUser.accountLoggedIn
+      #game.col-lg-10.col-xs-12
+        map-grid mode="query-mode" action="query"
+          each lines as |line|
+            map-grid-polyline model=line
+          each tiles as |tile|
+            map-grid-tile model=tile
+    else
+      #login.col-lg-10.col-xs-12
+        .container
+          .row
+            .col-lg-6.col-md-8.col-sm-10.col-xs-12.col-lg-offset-3.col-md-offset-2.col-md-offset-1
+              .modal-box
+                == partial "sessions/login"
+    .col-lg-2.col-md-8.col-xs-12
+      #sidenav
+        == liquid-outlet "sidenav"
