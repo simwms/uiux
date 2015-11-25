@@ -11,7 +11,6 @@ module.exports = function(environment) {
     s3Bucket: "simwms",
     s3StorageClass: "REDUCED_REDUNDANCY",
     baseURL: '/',
-    host: "http://localhost:4000",
     apiNamespace: "api",
     apixNamespace: "apix",
     apizNamespace: "apiz",

@@ -1,13 +1,17 @@
 `import Ember from 'ember'`
 `import {processMacro} from 'uiux/collections/appointments'`
 
-ManagerRoute = Ember.Route.extend
+{RSVP, Route} = Ember
+
+ManagerRoute = Route.extend
+  renderTemplate: ->
+    @_super arguments...
+    @render "sidenavs/manager",
+      outlet: "sidenav"
   model: ->
-    batches = @store.peekAll "batch"
-    Ember.RSVP.hash
-      tiles: @store.findAll "tile"
+    RSVP.hash
       appointments: @store.query "appointment", processMacro macro: "today"
       trucks: @store.findAll("truck").filterBy("departedAt", null)
-    .then ({trucks, appointments, tiles}) -> {trucks, batches, tiles, appointments}
+      batches: RSVP.resolve @store.peekAll "batch"
 
 `export default ManagerRoute`

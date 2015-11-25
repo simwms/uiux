@@ -1,0 +1,39 @@
+.panel.panel-default
+  .panel-heading Manager Overview
+  .panel-body
+    p 
+      span.fa Warehouse Activities on:&nbsp;
+      span.fa.info-data= rightNow
+  
+  .list-group
+    link-to "manager.trucks" class="list-group-item"
+      img.icon-nav src="images/truck.png" alt="trucks"
+      .inline-block
+        span.fa Onsite Trucks&nbsp;
+        span.badge= trucks.length
+    link-to "manager.appointments" class="list-group-item"
+      img.icon-nav src="images/appointment.png" alt="appointments"
+      .inline-block
+        span.fa Today's Appointments&nbsp;
+        span.badge= appointments.length
+    link-to "manager.inventories" class="list-group-item"
+      img.icon-nav src="images/inventory.png" alt="inventory"
+      .inline-block
+        span.fa Moving Inventory&nbsp;
+        span.badge= batches.length
+    
+  .list-group
+    link-to "manager.reports.new" class="list-group-item"
+      img.icon-nav src="images/contracts.png" alt="reports"
+      span.fa Reports
+    link-to "manager.employees" class="list-group-item"
+      img.icon-nav src="images/worker.png" alt="employees"
+      span.fa Employees
+    link-to "manager.cameras" class="list-group-item"
+      img.icon-nav src="images/camera.png" alt="cameras"
+      span.fa Cameras
+    
+    
+    link-to "manager.settings" class="list-group-item"
+      img.icon-nav src="images/status.png" alt="status"
+      span.fa Settings

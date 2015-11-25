@@ -1,11 +1,12 @@
 `import Ember from 'ember'`
+`import momentFormat from 'ember-moment/computeds/format'`
 
 ManagerController = Ember.Controller.extend
   tiles: Ember.computed.alias "model.tiles"
   trucks: Ember.computed.alias "model.trucks"
   batches: Ember.computed.alias "model.batches"
   appointments: Ember.computed.alias "model.appointments"
-  rightNow: Ember.computed.alias("clock.rightNow")
+  rightNow: momentFormat("clock.rightNow", "MM/DD/YY - h:mm a")
 
   actions:
     clickTile: (tile) ->

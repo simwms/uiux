@@ -1,27 +1,25 @@
 $manager-blue: #BBDEFB;
-#sidebar {
-  @include display-flex;
-  @include justify-content(center);
-  @include align-items(center);
-  @include box-shadow(lighten(#333, 25%) -2px 0px 5px);
-  z-index: 1;
-  position: fixed;
-  right: 0px;
-  top: 0px;
-  height: 90%;
-  width: 150px;
-  background-color: $manager-blue;
-  border-left: 2px solid #EFEBE9;
-  .side-nav {
-    
-  }
+#sidenav {
   img.icon-nav {
-    height: 100%;
+    height: 45px;
   }
-  .square {
-    height: 100px;
-    text-transform: capitalize;
-    @include box-shadow(lighten(#333, 25%) 3px 2px 5px);
+  .info-box {
+    text-align: center;
+    padding: 10px;
+    border: 2px solid darken(#0D47A1, 25%);
+    background-color: #eee;
+    margin-bottom: 15px;
+  }
+  .info-title {
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+    &::after {
+      content: ":";
+    }
+  }
+  .info-data {
+    padding-right: 10px;
   }
 }
 
@@ -62,22 +60,5 @@ $manager-blue: #BBDEFB;
   border-top: 2px solid #EFEBE9;
   
   
-  .info-box {
-    text-align: center;
-    padding: 10px;
-    border: 2px solid darken(#0D47A1, 25%);
-    background-color: #eee;
-    margin-bottom: 15px;
-  }
-  .info-title {
-    font-weight: bold;
-    margin-right: 10px;
-    margin-left: 10px;
-    &::after {
-      content: ":";
-    }
-  }
-  .info-data {
-    padding-right: 10px;
-  }
+  
 }

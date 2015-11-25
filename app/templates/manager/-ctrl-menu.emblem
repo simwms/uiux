@@ -1,17 +1,17 @@
 .row
-  news-ticker class="col-xs-12"
+  .col-lg-12.info-box
+    span.fa.info-data= rightNow
+
 .row
-  link-to "manager.trucks" classNames="col-lg-3 info-box"
+  link-to "manager.trucks" class="col-lg-4 info-box"
     span.info-title
       i.fa.fa-truck
     span.fa.info-data= trucks.length
-  link-to "manager.inventories" classNames="col-lg-3 info-box"
+  link-to "manager.inventories" class="col-lg-4 info-box"
     span.fa.info-title
       i.fa.fa-cubes
     span.fa.info-data= batches.length
-  link-to "manager.appointments" classNames="col-lg-3 info-box"
+  link-to "manager.appointments" class="col-lg-4 info-box"
     span.fa.info-title
       i.fa.fa-exchange
     span.fa.info-data= appointments.length
-  .col-lg-3.info-box
-    span.fa.info-data= moment rightNow

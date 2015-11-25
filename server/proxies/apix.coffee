@@ -1,4 +1,4 @@
-proxyPath = '/system'
+proxyPath = '/apix'
 proxy = require('http-proxy').createProxyServer({})
 
 proxy.on 'error', (err, req) ->
@@ -7,4 +7,4 @@ proxy.on 'error', (err, req) ->
 module.exports = (app) ->
   app.use proxyPath, (req, res, next) ->
     req.url = proxyPath + '/' + req.url
-    proxy.web req, res, target: 'http://localhost:3000'
+    proxy.web req, res, target: 'http://localhost:4000'

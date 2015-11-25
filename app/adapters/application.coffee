@@ -4,7 +4,7 @@
 `import {SimwmsHeaders} from 'simwms-shared'`
 
 ApplicationAdapter = ActiveModelAdapter.extend SimwmsHeaders,
-  namespace: ENV.apiaNamespace
+  namespace: ENV.apizNamespace
   host: ENV.host
 
 `export default ApplicationAdapter`
