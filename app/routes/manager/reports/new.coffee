@@ -2,8 +2,13 @@
 
 ManagerReportsNewRoute = Ember.Route.extend
   model: ->
-    Ember.Object.create
-      startAt: moment().startOf("week").format "YYYY-MM-DD"
-      finishAt: moment().format "YYYY-MM-DD"
+    @store.createRecord "report",
+      accountId: @currentUser.get("account.id")
+      startAt: moment().startOf("week")
+      finishAt: moment()
+
+  tearDown: Ember.on "deactivate", ->
+    model = @controller.get "model"
+    model.deleteRecord()
 
 `export default ManagerReportsNewRoute`

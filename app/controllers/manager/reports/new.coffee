@@ -1,14 +1,17 @@
 `import Em from 'ember'`
 `import ENV from 'uiux/config/environment'`
-ManagerReportsNewController = Em.Controller.extend
-  report: Em.computed.alias "model"
-  reportLink: Ember.computed "report.startAt", "report.finishAt", ->
-    query =
-      start_at: @get("report.startAt")
-      finish_at: @get("report.finishAt")
-    url = [ENV.printHost, ENV.printNamespace, "reports"]
-    .filter Em.isPresent
-    .join("/")
-    "#{url}?#{Ember.$.param query}"
+{Controller, computed, $, isPresent} = Ember
+{alias} = computed
+
+ManagerReportsNewController = Controller.extend
+  report: alias "model"
+  startAt: alias "report.startAt"
+  finishAt: alias "report.finishAt"
+  reportLink: alias "report.link"
+
+  actions:
+    submit: ->
+      @get "report"
+      .save()
 
 `export default ManagerReportsNewController`

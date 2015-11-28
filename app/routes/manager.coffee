@@ -14,4 +14,8 @@ ManagerRoute = Route.extend
       trucks: @store.findAll("truck").filterBy("departedAt", null)
       batches: RSVP.resolve @store.peekAll "batch"
 
+  actions:
+    closeModal: ->
+      @transitionTo "manager.index"
+
 `export default ManagerRoute`

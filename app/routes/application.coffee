@@ -21,9 +21,17 @@ ApplicationRoute = Route.extend
           points: RSVP.resolve []
       else
         Object.create $.extend({}, {accountToken}, errors: @currentUser.get("errors"))
-        
+  
+  afterModel: (model, transition) ->
+    return if @currentUser.get("accountLoggedIn")
+    @set "originalTransition", transition
+    transition.abort()
+    @transitionTo "index"
   actions:
     refresh: ->
+      if (t = @get "originalTransition")?
+        @set "originalTransition", null
+        t.retry()
       @refresh()
 
 `export default ApplicationRoute`
