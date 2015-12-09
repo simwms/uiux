@@ -2,8 +2,3 @@ h2.modal-title
   span.fa inventory stoarge overview
 
 == partial "manager/inventories/panel-group"
-
-.actions
-  button.btn.btn-primary.close-button click="closeModal"
-    i.fa.fa-times
-    span.prespace.upcase dismiss

@@ -6,10 +6,11 @@
 `import TrucksCollection from '../collections/trucks'`
 `import {TileCore} from 'simwms-shared'`
 Macros = CPM.Macros
-
+{among} = Macros
 Alphabet = "abcdefghijklmnopqrstuvwxyz"
 AlphabetGr = "αβγδεζηθικλμνξοπρστυφχψω"
 AlphabetExt = Alphabet + AlphabetGr
+
 
 Tile = DS.Model.extend TileCore,
   createdAt: DS.attr "date"
@@ -40,7 +41,7 @@ Tile = DS.Model.extend TileCore,
   canonicalName: Ember.computed "tileType", ->
     switch @get "tileType"
       when "barn", "dock" then "loading dock"
-      when "warehouse", "storage" then "storage cell"
+      when "warehouse", "storage", "cell" then "storage cell"
       when "road" then "road"
       when "station", "scale" then "weight station"
       else "unknown"
@@ -50,6 +51,8 @@ Tile = DS.Model.extend TileCore,
   status: Ember.computed.alias "trucksCollection.status"
 
   batchCount: Ember.computed.alias "batches.length"
+
+  isCellType: among "tileType", "warehouse", "cell"
 
   batchesCollection: Ember.computed "batches", -> BatchesCollection.fromBatches @get "batches"
 
