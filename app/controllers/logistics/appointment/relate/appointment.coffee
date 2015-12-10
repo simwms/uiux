@@ -1,8 +1,8 @@
 `import Ember from 'ember'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 a = Ember.computed.alias
 
-LogisticsAppointmentRelateAppointmentController = Ember.Controller.extend AtomicMixin,
+LogisticsAppointmentRelateAppointmentController = Ember.Controller.extend Atomic,
   pickup: a "model.pickup"
   dropoff: a "model.dropoff"
   batchRelationships: a "model.batchRelationships.relationCores"

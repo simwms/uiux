@@ -19,7 +19,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "body-parser": "^1.13.2",
     "broccoli-asset-rev": "^2.1.2",
     "coffee-script": "^1.9.3",
     "ember-bootstrap-datetimepicker": "1.0.2",
@@ -44,7 +43,7 @@
     "ember-cpm": "2.1.1",
     "ember-data": "2.2.1",
     "ember-disable-proxy-controllers": "^1.0.0",
-    "ember-export-application-global": "^1.0.3",
+    "ember-export-application-global": "^1.0.5",
     "ember-form-tool": "foxnewsnetwork/ember-form-tool#v0.2.8",
     "ember-functional-validation": "0.1.2",
     "ember-modal-dialog": "0.8.2",
@@ -52,13 +51,9 @@
     "ember-notify": "4.3.1",
     "ember-phoenix-chan": "foxnewsnetwork/ember-phoenix-chan#v0.1.9",
     "ember-truth-helpers": "1.2.0",
-    "express": "^4.13.1",
-    "glob": "^5.0.14",
-    "http-proxy": "^1.11.1",
     "liquid-fire": "0.21.3",
-    "morgan": "^1.6.1",
     "promise-button": "0.0.3",
     "simwms-assets": "simwms/simwms-assets#v0.1.24",
-    "simwms-shared": "simwms/simwms-shared#v0.2.1"
+    "simwms-shared": "simwms/simwms-shared#v0.2.2"
   }
 }

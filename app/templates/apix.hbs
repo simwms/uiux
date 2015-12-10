@@ -1,0 +1,19 @@
+{{#modal-dialog close='closeModal' translucentOverlay=true}}
+  <h2 class="capitalize">
+    <span class="fa">Select Warehouse Account</span>
+  </h2>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="list-group">
+        {{#each model as |account|}}
+          <div class="list-group-item pointer" id="account-{{account.id}}" {{action "activate" account}}>
+            <h4>{{account.companyName}}</h4>
+            <div>{{account.permalink}}</div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+{{/modal-dialog}}
+

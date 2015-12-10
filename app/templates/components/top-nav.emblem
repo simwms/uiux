@@ -1,0 +1,32 @@
+.container-fluid
+  .navbar-header
+    button.navbar-toggle.collaposed data-toggle="collapse" data-target="#nav-roles"
+      span.sr-only Toggle Navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    link-to "index" class="navbar-brand"
+      span.fa SimWMS
+  
+  #nav-roles.collapse.navbar-collapse
+    ul.nav.navbar-nav.navbar-right
+      if currentUser.accountLoggedIn
+        link-to "manager" tagName="li"
+          link-to "manager"
+            span.fa Manager
+        link-to "logistics" tagName="li"
+          link-to "logistics"
+            span.fa Logistics
+        link-to "stations" tagName="li"
+          link-to "stations"
+            span.fa Weight Stations
+        link-to "docks" tagName="li"
+          link-to "docks"
+            span.fa Loading Docks
+        link-to "index" tagName="li"
+          link-to "index"
+            span.fa My Account
+      else
+        link-to "index" tagName="li"
+          link-to "index"
+            span.fa Login

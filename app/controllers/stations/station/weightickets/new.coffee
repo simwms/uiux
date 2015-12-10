@@ -1,12 +1,12 @@
 `import Ember from 'ember'`
 `import validate from 'uiux/validators/weighticket'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 `import PicturesCollection from 'uiux/collections/pictures'`
 invalidMsg = """
 You expected your weighticket to correctly save, but it didn't do that.
 This is definitely your fault.
 """
-StationsStationWeighticketsNewController = Ember.Controller.extend AtomicMixin,
+StationsStationWeighticketsNewController = Ember.Controller.extend Atomic,
   queryParams: ["appointment"]
   appointment: null
   dockChoices: Ember.computed.alias "model.docks.dockChoices"

@@ -15,10 +15,11 @@ module.exports = function(environment) {
     apixNamespace: "apix",
     apizNamespace: "apiz",
     apiaNamespace: "apia",
+    host: "http://localhost:4000",
     socketNamespace: "ws://localhost:4000/socket",
     locationType: 'auto',
     contentSecurityPolicy: { 
-      'connect-src': "'self' *",
+      'connect-src': "'self' * http://localhost:4000 ws://localhost:4000",
       "img-src": "*",
       "media-src": "'self' *",
       "font-src": "*",

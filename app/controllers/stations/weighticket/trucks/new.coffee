@@ -1,9 +1,9 @@
 `import Ember from 'ember'`
 `import validate from 'uiux/validators/truck'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 
 
-StationsWeighticketTrucksNewController = Ember.Controller.extend AtomicMixin,
+StationsWeighticketTrucksNewController = Ember.Controller.extend Atomic,
   truck: Ember.computed.alias "model"
     
   actions:

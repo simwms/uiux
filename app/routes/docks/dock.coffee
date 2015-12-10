@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 DocksDockRoute = Ember.Route.extend
-  model: (dock_id: id) ->
+  model: ({id}) ->
     @store.find "tile", id
   actions:
     exitRole: ->

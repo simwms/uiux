@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 StationRoute = Ember.Route.extend
-  model: ({stationId}) ->
-    @store.find "tile", stationId
+  model: ({id}) ->
+    @store.find "tile", id
 
 `export default StationRoute`

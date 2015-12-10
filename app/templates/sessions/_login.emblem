@@ -1,7 +1,7 @@
 h2.modal-title
   span.fa Authentication Required
 
-em-form-for model errors=currentUser.errors action="submit" as |f|
+em-form-for currentUser action="login" as |f|
   if currentUser.isLoggedIn
     input disabled=true value=currentUser.username class="form-control"
   else

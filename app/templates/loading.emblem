@@ -1,7 +1,6 @@
-#application-index.full-screen-modal
-  .modal-container
-    .container
-      .row
-        .col-lg-10.col-md-12.col-sm-12.col-xs-12.col-lg-offset-1
-          .modal-box
-            == partial "sessions/setup"
+modal-dialog close='closeModal' translucentOverlay=true
+  h2.modal-title
+    span.fa currently loading
+  .progress
+    .progress-bar.progress-bar-striped.active role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"
+      span.sr-only now loading

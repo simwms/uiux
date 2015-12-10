@@ -1,6 +1,6 @@
 `import Ember from 'ember'`
 `import validate from 'uiux/validators/appointment'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 `import moment from 'moment'`
 `import {withinWorkingHours} from 'uiux/utils/punch-card'`
 `import CPM from 'ember-cpm'`
@@ -13,7 +13,7 @@ appointmentChoices = Ember.A ["dropoff", "pickup", "both"]
   value: v
   presentation: v
 
-LogisticsAppointmentsNewController = Ember.Controller.extend AtomicMixin,
+LogisticsAppointmentsNewController = Ember.Controller.extend Atomic,
   pickupTypeSelected: CPM.Macros.among "appointment.appointmentType", "pickup", "both"
   appointmentChoices: appointmentChoices
   appointment: Ember.computed.alias "model"

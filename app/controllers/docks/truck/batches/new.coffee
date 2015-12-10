@@ -1,8 +1,8 @@
 `import Ember from 'ember'`
 `import validate from 'uiux/validators/batch'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 
-DocksTruckBatchesNewController = Ember.Controller.extend AtomicMixin,
+DocksTruckBatchesNewController = Ember.Controller.extend Atomic,
   warehouseChoices: Ember.computed.alias("model.warehouses.warehouseChoices")
   actions:
     killPic: (uri) ->

@@ -8,7 +8,7 @@ calculateExitScalePreference = (stations) ->
   stations.get("firstObject")
 
 DocksTruckRoute = Ember.Route.extend
-  model: (truckId: id)->
+  model: ({id}) ->
     Ember.RSVP.hash
       tiles: @store.findAll "tile"
       batches: @store.find("batch", truck: id)

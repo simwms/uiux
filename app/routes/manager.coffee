@@ -8,10 +8,11 @@ ManagerRoute = Route.extend
     @_super arguments...
     @render "sidenavs/manager",
       outlet: "sidenav"
+      into: "apiz"
   model: ->
     RSVP.hash
       appointments: @store.query "appointment", processMacro macro: "today"
-      trucks: @store.findAll("truck").filterBy("departedAt", null)
+      trucks: @store.findAll("onsite-truck")
       batches: RSVP.resolve @store.peekAll "batch"
 
   actions:

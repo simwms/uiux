@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 StationsTruckRoute = Ember.Route.extend
-  model: ({truckId}) ->
-    @store.find "truck", truckId
+  model: ({id}) ->
+    @store.find "truck", id
 
 `export default StationsTruckRoute`

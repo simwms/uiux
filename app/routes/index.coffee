@@ -2,10 +2,16 @@
 
 {Route, Object} = Ember
 IndexRoute = Route.extend
-  renderTemplate: ->
-    @_super arguments...
-    if @currentUser.get "accountLoggedIn"
-      @render "sidenavs/index",
-        outlet: "sidenav"
+  beforeModel: ->
+    if @currentUser.get("accountLoggedIn")
+      @transitionTo "apiz"
+    else if @currentUser.get("isLoggedIn")
+      @transitionTo "apix"
+
+  actions:
+    login: ->
+      @currentUser.login()
+      .finally =>
+        @refresh()
 
 `export default IndexRoute`

@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 
-StationsTruckDepartureController = Ember.Controller.extend AtomicMixin,
+StationsTruckDepartureController = Ember.Controller.extend Atomic,
   truck: Ember.computed.alias "model"
   actions:
     weighTruck: ->      

@@ -1,0 +1,6 @@
+#login.col-lg-10.col-xs-12
+  .container
+    .row
+      .col-lg-6.col-md-8.col-sm-10.col-xs-12.col-lg-offset-3.col-md-offset-2.col-md-offset-1
+        .modal-box
+          == partial "sessions/login"

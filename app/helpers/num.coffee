@@ -23,7 +23,7 @@ num = ([number, separator]) ->
   .filter (x) -> x?
   .join separator
 
-NumHelper = Ember.HTMLBars.makeBoundHelper num
+NumHelper = Ember.Helper.helper num
 
 `export { num }`
 

@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
-`import AtomicMixin from 'uiux/mixins/atomic'`
+`import {Atomic} from 'simwms-shared'`
 
-StationsTruckCompleteController = Ember.Controller.extend AtomicMixin,
+StationsTruckCompleteController = Ember.Controller.extend Atomic,
   truck: Ember.computed.alias "model"
   weighticket: Ember.computed.alias "model.weighticket"
   appointment: Ember.computed.alias "model.appointment"

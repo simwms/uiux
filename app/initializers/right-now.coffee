@@ -14,7 +14,7 @@ Clock = Ember.Object.extend
   incrementTime: ->
     @set "rightNow", new Date()
 
-initialize = (registry, app) ->
+initialize = (app) ->
   app.register "volatile:clock", Clock
   app.inject "controller", "clock", "volatile:clock"
 

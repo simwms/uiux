@@ -1,0 +1,11 @@
+.row
+  #game.col-lg-10.col-xs-12
+    map-grid mode="query-mode" action="query"
+      each lines as |line|
+        map-grid-polyline model=line
+      each tiles as |tile|
+        map-grid-tile model=tile
+  .col-lg-2.col-md-8.col-xs-12
+    #sidenav
+      == outlet "sidenav"
+== outlet

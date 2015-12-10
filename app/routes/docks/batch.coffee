@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 DocksBatchRoute = Ember.Route.extend
-  model: (batchId: id) ->
+  model: ({id}) ->
     @store.find "batch", id
 
 

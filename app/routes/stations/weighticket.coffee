@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 StationsWeighticketRoute = Ember.Route.extend
-  model: (weighticketId: id) ->
+  model: ({id}) ->
     @store.find "weighticket", id
 
 `export default StationsWeighticketRoute`
