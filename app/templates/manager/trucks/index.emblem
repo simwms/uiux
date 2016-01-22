@@ -5,8 +5,9 @@
     each model as |truck|
       link-to "manager.trucks.truck" truck.id class="list-group-item"
         span.fa.bold.capitalize truck for appt no.
-        span.prespace= truck.appointmentNumber
-        span.parantheses= truck.position
+        strong= truck.appointment.id
+        span.parantheses= truck.appointment.company.name
+        small arrived at #{moment-format truck.goliveAt "LT"}
     else
       .list-group-item
         span.fa.capitalize no truck is on site

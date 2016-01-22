@@ -1,6 +1,8 @@
 .panel.panel-default
-  .panel-heading Welcome, #{currentUser.username}
-  .panel-body You can manage your account preference from this tab
+  .panel-heading Welcome, #{session.model.email}
+  .panel-body 
+    p You can manage your account preference from this tab
+    p Account ID: #{session.model.account.id}
   .list-group
     .list-group-item.pointer click="logout"
       fa-icon "sign-out"

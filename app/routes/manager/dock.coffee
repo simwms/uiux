@@ -1,7 +1,5 @@
 `import Ember from 'ember'`
 
-ManagerDockRoute = Ember.Route.extend
-  model: ({id}) ->
-    @store.find "tile", id
+ManagerDockRoute = Ember.Route.extend {}
 
 `export default ManagerDockRoute`

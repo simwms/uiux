@@ -3,7 +3,6 @@
 ManagerReportsNewRoute = Ember.Route.extend
   model: ->
     @store.createRecord "report",
-      accountId: @currentUser.get("account.id")
       startAt: moment().startOf("week")
       finishAt: moment()
 

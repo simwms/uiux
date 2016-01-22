@@ -1,0 +1,8 @@
+.panel.panel-default
+  .panel-heading
+    h3.panel-title
+      span.fa.capitalize new appointment
+
+  .panel-body
+    == outlet
+    

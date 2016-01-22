@@ -1,0 +1,40 @@
+{{#if boundaryConditionsReady}}
+  {{#ember-collection
+    items=items
+    estimated-height=collectionHeight 
+    estimated-width=collectionWidth
+    cell-layout=(fixed-grid-layout itemWidth itemHeight) as |appointment index|
+  }}
+    {{#link-to "manager.appointment" appointment.id class="list-group-item"}}
+      {{#if hasBlockParams}}
+        {{yield appointment}}
+      {{else}}
+        <span class="fa bold capitalize">appt no.</span>
+        <span class="fa prespace">{{appointment.id}}</span>
+        <span class="fa bold capitalize prespace colon">from</span>
+        <span class="fa prespace">{{appointment.company.name}}</span>
+        <span class="fa bold capitalize prespace colon">scheduled at</span>
+        <span class="fa prespace">{{moment-format appointment.goliveAt "LT"}}</span>
+        {{#if appointment.truck}}
+          {{#link-to "manager.trucks.truck" appointment.truck}}
+            {{fa-icon "truck"}}
+            <strong>onsite</strong>
+          {{/link-to}}
+        {{/if}}
+        {{#if appointment.weighticket}}
+          {{#link-to "manager.weighticket" appointment.weighticket}}
+            {{fa-icon "balance-scale"}}
+            <small>weighticket</small>
+          {{/link-to}}
+        {{/if}}
+      {{/if}}
+    {{/link-to}}
+  {{/ember-collection}}
+{{else}}
+  <div class="collection-loader">
+    {{fa-icon "cog"}}
+  </div>
+{{/if}}
+{{#unless items}}
+  <div class="empty-collection">No Results!</div>
+{{/unless}}

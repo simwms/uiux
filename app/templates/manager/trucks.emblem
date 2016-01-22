@@ -10,4 +10,13 @@ modal-dialog close='closeModal' translucentOverlay=true
           fa-icon "times"
     .row
       .col-xs-12
+        ul.nav.nav-pills
+          link-to "manager.trucks.index" tagName="li"
+            link-to "manager.trucks.index"
+              span.capitalize onsite trucks
+          link-to "manager.trucks.new" tagName="li"
+            link-to "manager.trucks.new"
+              span.capitalize truck arrival
+    .row
+      .col-xs-12
         == outlet

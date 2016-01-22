@@ -1,36 +1,27 @@
 h2.modal-title
   span.fa employees overview
 
-link-to "manager.employees.new" classNames="btn btn-default"
-  i.fa.fa-user-plus
-  span.fa.capitalize &nbsp;new employee
-if model
-  ember-list-standin items=model height=440 rowHeight=110 as |item|
-    .media
-      .media-left
-        img.media-object.thumbnail.employee-mugshot src="images/doge.jpg"
-      .media-body
-        h4.media-heading= item.fullName
+.list-group
+  each model as |employee|
+    .list-group-item
+      h4.media-heading= employee.fullName
+      .media-content
+        span.bold.colon title
+        span.prespace= employee.role
+      if phone
         .media-content
-          span.bold.colon title
-          span.prespace= item.title
+          span.bold
+            i.fa.fa-phone
+          span.prespace= employee.phone
+      if email
         .media-content
-          span.bold.colon location
-          span.prespace= item.tile.fullTitle
-        if phone
-          .media-content
-            span.bold
-              i.fa.fa-phone
-            span.prespace= item.phone
-        if email
-          .media-content
-            span.bold
-              i.fa.fa-envelope
-            span.prespace= item.email
-else
-  h4.alert.alert-warning
-    i.fa.fa-warning
-    span.fa.capitalize you have no employees!
+          span.bold
+            i.fa.fa-envelope
+          span.prespace= employee.email
+  else
+    h4.alert.alert-warning
+      i.fa.fa-warning
+      span.fa.capitalize you have no employees!
 .actions
   button.btn.btn-primary.close-button click="closeModal"
     i.fa.fa-times

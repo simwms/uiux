@@ -1,0 +1,16 @@
+.panel.panel-default
+  .panel-heading
+    span.fa.capitalize edit weighticket details
+  .panel-body
+    em-form-for model action="update" as |f|
+      em-number-field f name="arrivePounds" label="Starting Weight (pounds)"
+        span.help-block Trucks should be weighed once on entry, and once on exit to produce a complete weighticket
+      em-number-field f name="departPounds" label="Finishing Weight (pounds)"
+        span.help-block If you have the exit weight of the truck, provide it
+      em-text-field f name="licensePlate" label="Truck License Plate"
+      em-text-field f name="externalReference" label="External Reference Number"
+      em-textarea-field f name="notes" label="Extra Notes"
+      .actions
+        button.btn.btn-success.btn-lg type="submit"
+          fa-icon "check"
+          span.capitalize.bold submit

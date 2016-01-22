@@ -1,7 +1,5 @@
 `import Ember from 'ember'`
 
-ManagerInventoriesCellRoute = Ember.Route.extend
-  model: ({id}) ->
-    @store.find "tile", id
+ManagerInventoriesCellRoute = Ember.Route.extend {}
 
 `export default ManagerInventoriesCellRoute`

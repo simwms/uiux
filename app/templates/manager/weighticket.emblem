@@ -1,0 +1,22 @@
+modal-dialog close='closeModal' translucentOverlay=true
+  .container
+    .row
+      .col-xs-10
+        h2
+          span.fa.capitalize weighticket no. #{model.id}
+      .col-xs-2.align-right
+        button.btn.btn-lg.btn-default click="closeModal"
+          fa-icon "times"
+    .row
+      .col-xs-12
+        ul.nav.nav-pills
+          link-to "manager.appointment" model.appointment.id tagName="li"
+            link-to "manager.appointment" model.appointment.id
+              span.capitalize related appointment
+          link-to "manager.weighticket" model.id tagName="li"
+            link-to "manager.weighticket" model.id
+              span.capitalize weighticket id: #{model.id}
+    .row
+      .col-xs-12
+        == outlet
+        

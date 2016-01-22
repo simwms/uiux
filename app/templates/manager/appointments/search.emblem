@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading
+    h3.panel-title
+      span.fa.capitalize appointment search
+  .panel-body
+    .btn-group
+      link-to "manager.appointments.search" (query-params macro="all") class="btn btn-default"
+        span.fa all
+      link-to "manager.appointments.search" (query-params macro="future") class="btn btn-default"
+        span.fa future
+      link-to "manager.appointments.search" (query-params macro="past") class="btn btn-default"
+        span.fa past
+  appointment-links-collection class="list-group" appointments=model

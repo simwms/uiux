@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
-`import WarehousesCollection from 'uiux/collections/warehouses'`
+
 ManagerInventoriesRoute = Ember.Route.extend
   model: ->
-    WarehousesCollection.fromTiles @modelFor("application").tiles
+    @store.findAll "cell"
 
 `export default ManagerInventoriesRoute`

@@ -3,10 +3,7 @@
     .panel-heading.instruction-line
       span.fa.capitalize dock camera
     .panel-body
-      each model.cameras as |camera|
-        adaptive-camera camera=camera
-      else
-        h4.fa.parantheses this dock has no camera
+      h4.fa.parantheses this dock has no camera
     
 .col-xs-12
   if model.isFree

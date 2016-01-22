@@ -1,0 +1,28 @@
+.panel.panel-default
+  .panel-heading
+    span.fa.capitalize weighticket details
+  .panel-body
+    dl
+      dt related appointment id
+      dd= model.appointment.id
+      dt starting weight (pounds)
+      dd= num model.arrivePounds
+      if model.departPounds
+        dt ending weight (pounds)
+        dd= num model.departPounds
+      dt license plate number
+      dd= model.licensePlate
+      if model.externalReference
+        dt external reference id
+        dd= model.externalReference
+      if model.notes
+        dt extra notes
+        dd= model.notes
+  .panel-body
+    .actions
+      link-to "manager.weighticket.edit" class="btn btn-default"
+        fa-icon "edit"
+        if model.departPounds
+          span.fa Edit Weighticket
+        else
+          span.fa Complete Weighticket

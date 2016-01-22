@@ -1,7 +1,12 @@
 `import Ember from 'ember'`
 {computed: {alias}} = Ember
 ApizController = Ember.Controller.extend
-  lines: alias "model.lines"
-  tiles: alias "model.tiles"
+  scales: alias "model.scales"
+  desks: alias "model.desks"
+  docks: alias "model.docks"
+  gates: alias "model.gates"
+  cells: alias "model.cells"
+  roads: alias "model.roads"
+  walls: alias "model.walls"
 
 `export default ApizController`

@@ -3,15 +3,15 @@
 {Route, Object} = Ember
 IndexRoute = Route.extend
   beforeModel: ->
-    if @currentUser.get("accountLoggedIn")
-      @transitionTo "apiz"
-    else if @currentUser.get("isLoggedIn")
+    if @session.get("loggedIn")
       @transitionTo "apix"
+
+  model: ->
+    @session.get "model"
 
   actions:
     login: ->
-      @currentUser.login()
-      .finally =>
-        @refresh()
+      @session.login()
+      .finally => @refresh()
 
 `export default IndexRoute`

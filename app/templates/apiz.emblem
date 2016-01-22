@@ -1,10 +1,21 @@
 .row
   #game.col-lg-10.col-xs-12
     map-grid mode="query-mode" action="query"
-      each lines as |line|
-        map-grid-polyline model=line
-      each tiles as |tile|
+      each scales as |tile|
         map-grid-tile model=tile
+      each desks as |tile|
+        map-grid-tile model=tile
+      each docks as |tile|
+        map-grid-tile model=tile
+      each gates as |tile|
+        map-grid-tile model=tile
+      each cells as |tile|
+        map-grid-tile model=tile
+      each roads as |line|
+        map-grid-polyline model=line
+      each walls as |line|
+        map-grid-polyline model=line
+
   .col-lg-2.col-md-8.col-xs-12
     #sidenav
       == outlet "sidenav"

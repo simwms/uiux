@@ -1,15 +1,14 @@
 `import Ember from 'ember'`
-
+{isPresent, inject} = Ember
 ApixRoute = Ember.Route.extend
+  socket: inject.service("socket")
   beforeModel: ->
-    unless @currentUser.get("isLoggedIn")
-      @transitionTo "index"
+    @transitionTo "index" unless @session.get("loggedIn")
   model: ->
-    @store.findAll "account"
-  actions:
-    activate: (account) ->
-      @currentUser.accountLogin account
-      .then =>
-        @transitionTo "apiz"
+    @session
+    .get("model")
+    .get("user")
+  afterModel: (user) ->
+    @session.connect("user")
 
 `export default ApixRoute`

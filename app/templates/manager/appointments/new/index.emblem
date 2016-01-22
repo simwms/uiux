@@ -1,0 +1,13 @@
+em-form-for model action="submit" as |f|
+  em-text-field f name="description" label="Material Description"
+  em-text-field f name="externalReference" label="External Reference Number"
+  em-datetime-field f name="goliveAt" label="Expected Time of Arrival" suffix="fa-calendar"
+  link-to "manager.appointments.new.companies.new"
+    fa-icon "plus"
+    span.fa Add Company
+  em-select-field f name="company" label="Company" suffix="fa-building" options=model.companies as |company|
+    span.fa= company.name
+  .actions
+    button type="submit" class="btn btn-lg btn-primary"
+      fa-icon "check"
+      span.fa Submit

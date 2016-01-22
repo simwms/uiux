@@ -1,13 +1,12 @@
 h2.modal-title
   span.fa Authentication Required
 
-em-form-for currentUser action="login" as |f|
-  if currentUser.isLoggedIn
-    input disabled=true value=currentUser.username class="form-control"
+em-form-for model action="login" as |f|
+  if session.isLoggedIn
+    input disabled=true value=model.username class="form-control"
   else
     em-email-field f label="Employee Email"
     em-password-field f
-  em-text-field f name="accountToken" label="Account Permalink"
   .actions
     button type="submit" class="btn btn-lg btn-primary"
       fa-icon "check"

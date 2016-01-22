@@ -1,0 +1,19 @@
+<div class="panel-heading">
+  Warehouse Accounts Index
+</div>
+<div class="panel-body">
+  You own {{model.length}} warehouse account(s)
+</div>
+<div class="list-group">
+  {{#each model as |account|}}
+    <div class="list-group-item pointer" {{action "activate" account}}>
+      <h4>{{account.name}}</h4>
+      <div>{{account.permalink}}</div>
+    </div>
+  {{else}}
+    <div class="list-group-item list-group-item-disabled">
+      <h4>No warehouses!</h4>
+      <div>You can make one buy clicking the button above</div>
+    </div>
+  {{/each}}
+</div>

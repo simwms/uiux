@@ -10,12 +10,15 @@ modal-dialog close='closeModal' translucentOverlay=true
     .row
       .col-xs-12
         ul.nav.nav-pills
-          li.active
-            link-to "manager.appointments"
+          link-to "manager.appointments.index" tagName="li"
+            link-to "manager.appointments.index"
               span.capitalize today's summary
-          li
-            link-to "logistics.appointments"
-              span.capitalize goto logistics
+          link-to "manager.appointments.new" tagName="li"
+            link-to "manager.appointments.new"
+              span.capitalize new appointment
+          link-to "manager.appointments.search" tagName="li"
+            link-to "manager.appointments.search"
+              span.capitalize all appointments
     .row
       .col-xs-12
         == outlet

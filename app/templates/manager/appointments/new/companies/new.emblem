@@ -1,0 +1,9 @@
+em-form-for model action="submit" as |f|
+  em-text-field f name="name" label="Company Name"
+  .actions
+    button type="submit" class="btn btn-lg btn-primary"
+      fa-icon "check"
+      span.fa Submit
+    link-to "manager.appointments.new" class="btn btn-lg btn-default"
+      fa-icon "cancel"
+      span.fa Cancel

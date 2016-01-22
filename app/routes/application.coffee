@@ -4,15 +4,14 @@
 
 ApplicationRoute = Route.extend
   queryParams:
-    userToken:
+    rememberToken:
       refreshModel: true
-    accountToken:
-      refreshModel: true
-
   model: (params) ->
-    @currentUser.smartLogin(params)
-    .finally => @currentUser
-
+    if params?.rememberToken?
+      @session.login(params)
+    else
+      @session.get("self")
     
+
 `export default ApplicationRoute`
 

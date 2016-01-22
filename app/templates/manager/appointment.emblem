@@ -1,0 +1,36 @@
+modal-dialog close='closeModal' translucentOverlay=true
+  .container
+    .row
+      .col-xs-10
+        h2
+          span.fa.capitalize appointment no. #{model.id}
+      .col-xs-2.align-right
+        button.btn.btn-lg.btn-default click="closeModal"
+          fa-icon "times"
+    .row
+      .col-xs-12
+        ul.nav.nav-pills
+          link-to "manager.appointments" tagName="li"
+            link-to "manager.appointments"
+              span.capitalize today's summary
+          link-to "manager.appointments.new" tagName="li"
+            link-to "manager.appointments.new"
+              span.capitalize new appointment
+          link-to "manager.appointments.search" tagName="li"
+            link-to "manager.appointments.search"
+              span.capitalize all appointments
+          link-to "manager.appointment.index" model.id tagName="li"
+            link-to "manager.appointment.index" model.id
+              span.capitalize appointment details
+          if model.weighticket
+            link-to "manager.weighticket.index" model.weighticket tagName="li"
+              link-to "manager.weighticket.index" model.weighticket
+                span.capitalize appointment weighticket
+          else
+            link-to "manager.appointment.weightickets.new" model.id tagName="li"
+              link-to "manager.appointment.weightickets.new" model.id
+                span.capitalize assign weighticket
+    .row
+      .col-xs-12
+        == outlet
+        

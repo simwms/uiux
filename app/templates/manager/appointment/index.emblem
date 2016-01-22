@@ -1,0 +1,22 @@
+.panel.panel-default
+  .panel-heading: span.fa.capitalize appointment details
+  .panel-body
+    dl
+      if model.description
+        dt material description
+        dd= model.description
+      if model.externalReference
+        dt reference number
+        dd= model.externalReference
+      dt related company
+      dd= model.company.name
+      dt scheduled for
+      dd= moment-format model.goliveAt
+      if model.unliveAt
+        dt finihed at
+        dd= moment-format model.unliveAt
+  .panel-body
+    .actions
+      link-to "manager.appointment.edit" class="btn btn-default"
+        fa-icon "edit"
+        span.capitalize.fa Edit

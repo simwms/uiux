@@ -10,18 +10,18 @@
   
   #nav-roles.collapse.navbar-collapse
     ul.nav.navbar-nav.navbar-right
-      if currentUser.accountLoggedIn
+      if session.model.account.id
         link-to "manager" tagName="li"
           link-to "manager"
             span.fa Manager
-        link-to "logistics" tagName="li"
-          link-to "logistics"
+        link-to "manager.appointments" tagName="li"
+          link-to "manager.appointments"
             span.fa Logistics
-        link-to "stations" tagName="li"
-          link-to "stations"
+        link-to "manager.scales" tagName="li"
+          link-to "manager.scales"
             span.fa Weight Stations
-        link-to "docks" tagName="li"
-          link-to "docks"
+        link-to "manager.docks" tagName="li"
+          link-to "manager.docks"
             span.fa Loading Docks
         link-to "index" tagName="li"
           link-to "index"

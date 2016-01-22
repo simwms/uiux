@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading New Truck Has Arrived
+
+  .panel-body
+    em-form-for model action="create" as |f|
+      em-select-field f name="appointment" label="Appointment" suffix="fa-building" options=model.appointments as |appt|
+        strong.dash= appt.id
+        small=moment-format appt.goliveAt "llll"
+        span.predash.fa= appt.company.name
+      .actions
+        button.btn.btn-success.btn-lg type="submit"
+          fa-icon "check"
+          span.capitalize.bold submit

@@ -3,7 +3,6 @@
 @import "animation/core";
 @import "common";
 
-@import "components";
 @import "templates";
 @import "simwms-assets/common";
 @import "simwms-assets/functions";
@@ -11,3 +10,4 @@
 
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-power-select";

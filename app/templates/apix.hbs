@@ -1,18 +1,21 @@
 {{#modal-dialog close='closeModal' translucentOverlay=true}}
-  <h2 class="capitalize">
-    <span class="fa">Select Warehouse Account</span>
-  </h2>
-
   <div class="row">
     <div class="col-xs-12">
-      <div class="list-group">
-        {{#each model as |account|}}
-          <div class="list-group-item pointer" id="account-{{account.id}}" {{action "activate" account}}>
-            <h4>{{account.companyName}}</h4>
-            <div>{{account.permalink}}</div>
-          </div>
-        {{/each}}
+      <div class="btn-group btn-group-lg" role="group">
+        {{#link-to "apix.accounts.new" class="btn btn-success"}}
+          {{fa-icon "plus"}}
+          New Warehouse
+        {{/link-to}}
+        {{#link-to "apix.accounts.index" class="btn btn-default"}}
+          My Warehouses
+        {{/link-to}}
+        {{#link-to "apix.employees" class="btn btn-default"}}
+          My Employers
+        {{/link-to}}
       </div>
+    </div>
+    <div class="col-xs-12">
+      {{outlet}}
     </div>
   </div>
 {{/modal-dialog}}

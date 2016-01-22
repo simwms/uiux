@@ -1,0 +1,10 @@
+.panel-heading Setup a New Warehouse
+
+.panel-body
+  em-form-for model action="submit" as |f|
+    em-text-field f name="name"
+    em-text-field f name="timezone"
+    .actions
+      button type="submit" class="btn btn-lg btn-primary"
+        fa-icon "check"
+        span.fa Submit

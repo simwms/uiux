@@ -1,0 +1,13 @@
+<div class="list-group">
+  {{#each model as |employee|}}
+    <div class="list-group-item pointer" {{action "activate" employee}}>
+      <h4>{{employee.name}}</h4>
+      <div>{{employee.permalink}}</div>
+    </div>
+  {{else}}
+    <div class="list-group-item list-group-item-disabled">
+      <h4>No warehouses!</h4>
+      <div>You can make one buy clicking the button above</div>
+    </div>
+  {{/each}}
+</div>

@@ -1,5 +1,6 @@
 .panel-group
-  panel-collapsible active=active panelTitle="storage inventory summary" action="clickSummary"
+  .panel
+    .panel-heading storage inventory summary
     .panel-body
       ul.list-inline
         li
@@ -9,7 +10,7 @@
           span.bold.fa.capitalize.colon total loads in warehouse
           span.fa= model.totalBatches
   each model as |warehouse|
-    panel-collapsible model=warehouse active=active action="clickPanel" panelTitle=warehouse.fullTitle
+    .panel
       .panel-body
         ul.list-inline
           li
@@ -23,7 +24,7 @@
               span.parantheses none
           li
             span.bold.capitalize.fa.colon last modified
-            span.fa= moment warehouse.updatedAt
+            span.fa= moment-format warehouse.updatedAt
         p 
           link-to "manager.inventories.cell" warehouse.id
             span The following 
@@ -38,7 +39,7 @@
                 span.fa= batch.permalink
               li
                 span.bold.capitalize.fa.colon arrived at
-                span.fa= moment batch.createdAt
+                span.fa= moment-format batch.createdAt
               li
                 span.bold.capitalize.fa.colon description
                 span.fa.ellipsis= batch.description
@@ -46,4 +47,5 @@
           link-to "manager.inventories.cell" warehouse.id classNames="list-group-item" 
             span.fa you have no loads here from any appointment
   else
-    panel-collapsible panelTitle="You have no storage cells!"
+    .panel
+      .panel-heading You have no storage cells!

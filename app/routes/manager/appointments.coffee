@@ -2,6 +2,7 @@
 
 ManagerAppointmentsRoute = Ember.Route.extend
   model: ->
-    @modelFor("manager").appointments
+    @modelFor "manager"
+    .appointments
 
 `export default ManagerAppointmentsRoute`

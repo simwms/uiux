@@ -1,10 +1,11 @@
 .panel.panel-default
   .panel-heading
-    span.fa.capitalize.bold truck from appt no.
-    span.fa.prespace= model.appointmentNumber
+    link-to "manager.appointment" model.appointment
+      span.fa.capitalize.bold truck from appt no.
+      span.fa.prespace= model.appointment.id
   .panel-body
     .row
-      each model.weighticket.pictures as |pic|
+      each model.appointment.weighticket.pictures as |pic|
         .col-lg-4.col-md-4.col-sm-6.col-xs-6
           a href=pic.normal target="blank"
             img.thumbnail src=pic.thumbnail
@@ -14,26 +15,25 @@
   .list-group
     .list-group-item
       span.fa.bold.colon.capitalize arrived at
-      span.fa.prespace= model.arrivedAtAgo
-    .list-group-item
-      span.fa.bold.colon.capitalize license plate
-      span.fa.prespace= model.weighticket.licensePlate
-    .list-group-item
-      span.fa.bold.colon.capitalize location
-      span.fa.prespace= model.position
+      span.fa.prespace= model.goliveAt
     .list-group-item
       span.fa.bold.colon.capitalize origin
-      span.fa.prespace= model.appointment.company
+      span.fa.prespace= model.appointment.company.name
     .list-group-item
       span.fa.bold.colon.capitalize description
-      span.fa.prespace= model.appointment.materialDescription
-    .list-group-item
-      span.fa.bold.colon.capitalize notes
-      span.fa.prespace= model.weighticket.notes
-
-
+      span.fa.prespace= model.appointment.description
+    if model.appointment.weighticket
+      link-to "manager.weighticket" model.appointment.weighticket class="list-group-item"
+        fa-icon "balance-scale"
+        span.fa.prespace weighticket
+    else
+      link-to "manager.appointment.weightickets.new" model.appointment class="list-group-item"
+        fa-icon "balance-scale"
+        span.prespace.upcase assign weighticket
+        fa-icon "asterisk"
+      
 
 .actions
-  button.btn.btn-primary.close-button click="closeModal"
+  button.btn.btn-default.close-button click="closeModal"
     i.fa.fa-times
     span.prespace.upcase dismiss

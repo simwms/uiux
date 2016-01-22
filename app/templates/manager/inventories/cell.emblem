@@ -1,6 +1,6 @@
 h2.modal-title
   span.fa storage cell # 
-  span.fa= model.nameOrId
+  span.fa= model.id
 
 .row
   .col-xs-12
@@ -12,7 +12,7 @@ h2.modal-title
     .panel.panel-default
       .panel-heading 
         span.fa.capitalize storage cell # 
-        span= model.nameOrId
+        span= model.id
 
       if model.batches
         .panel-body: span.fa Batches stored here
